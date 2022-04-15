@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "290425031269",
+    "project_id": "westcoachswing-1",
+    "storage_bucket": "westcoachswing-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290425031269:android:407df517d5e966d359148c",
+        "android_client_info": {
+          "package_name": "com.philandflore.westcoachswing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290425031269-sr9vjgqfrcc39hlrjcdiumejsp942r8b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.philandflore.westcoachswing",
+            "certificate_hash": "ef9ed60aaba751eb9774a003237edbf074022c97"
+          }
+        },
+        {
+          "client_id": "290425031269-ql4nlsa1vnl2gbvk2c863dcuf1c4ugel.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXRoDzxvCPJ6hglW-pKvt_aqcsPB0UxRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290425031269-ql4nlsa1vnl2gbvk2c863dcuf1c4ugel.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,310 @@
+name: westcoachswing
+description: The very first west coast swing practice app
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0-69.0.dev <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  #  Internet connection checker
+  connectivity_plus: ^2.2.0
+  #  other
+  provider: ^5.0.0
+  #  Firebase
+  firebase_auth: ^3.3.6
+  cloud_firestore: ^3.1.7
+  #  Pour le format date et heure
+  intl: ^0.17.0
+  #  caching images to store locally
+  cached_network_image: ^3.2.0
+  #  personalisable calendar
+  table_calendar: ^3.0.5
+  #  fi charts for dashboard
+  fl_chart: ^0.41.0
+  # Star rating for the levels
+  flutter_rating_bar: ^4.0.0
+  #  URL Launcher
+  url_launcher: ^6.0.18
+  #  audio player
+  assets_audio_player: ^3.0.3+9
+  #  video player
+  vimeo_player_flutter: ^0.0.3+2
+  video_player: ^2.2.7
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/woodbg.jpg
+    - assets/logoNoir.png
+    - assets/logoBlanc.png
+    - assets/LogoAnimatedFast.gif
+    - assets/musicality.jpg
+    - assets/partneringSkills.jpg
+    - assets/personalSkills.jpg
+    - assets/PhilandFlore.jpg
+    - assets/sleeping.png
+    - assets/styling.jpg
+    - assets/surprised-dog.png
+    - assets/technique.jpg
+    - assets/all.jpg
+    - assets/whiteBrick.jpg
+    - assets/audio/alert_bell_ping_wooden.mp3
+    - assets/miniatures/2- waltz drill.jpg
+    - assets/miniatures/3- waltz drill one foot.jpg
+    - assets/miniatures/6- fontaine.jpg
+    - assets/miniatures/7- arbre.jpg
+    - assets/miniatures/8 - balloons solo copie.jpg
+    - assets/miniatures/9 - limite pitch copie.jpg
+    - assets/miniatures/18 - arc and anchor lead copie.jpg
+    - assets/miniatures/19- arc and anchor F copie.jpg
+    - assets/miniatures/20- plumb line.jpg
+    - assets/miniatures/21- il mont il monte.jpg
+    - assets/miniatures/22- nombril dans le sol.jpg
+    - assets/miniatures/23- serrer ceinture.jpg
+    - assets/miniatures/26- pointe flex.jpg
+    - assets/miniatures/27 - extension en couple.jpg
+    - assets/miniatures/28- extension anchor couple.jpg
+    - assets/miniatures/29- extension transition couple.jpg
+    - assets/miniatures/32- be aware, control .jpg
+    - assets/miniatures/33- routine lead follow.jpg
+    - assets/miniatures/34- spot de tete follow.jpg
+    - assets/miniatures/35 - eyes.jpg
+    - assets/miniatures/36- Twist 3 fois.jpg
+    - assets/miniatures/37- pointe tete tourne.jpg
+    - assets/miniatures/38- prep tourne.jpg
+    - assets/miniatures/39- prep 3 times.jpg
+    - assets/miniatures/40- hips bounce.jpg
+    - assets/miniatures/41- torsion debout.jpg
+    - assets/miniatures/42- torsion au sol.jpg
+    - assets/miniatures/43- step close step side.jpg
+    - assets/miniatures/44- step close step 1.jpg
+    - assets/miniatures/45- step close step rotatif.jpg
+    - assets/miniatures/46-illusion-turn.jpg
+    - assets/miniatures/47- Finger spin V1.jpg
+    - assets/miniatures/48- finger spin V2.jpg
+    - assets/miniatures/50- catch yourself after turns.jpg
+    - assets/miniatures/51-relax et balance.jpg
+    - assets/miniatures/52 - Find your balance V1.jpg
+    - assets/miniatures/53 - Find your Balance V2.jpg
+    - assets/miniatures/54- be stable F.jpg
+    - assets/miniatures/55 be stable L.jpg
+    - assets/miniatures/56-love-the-flore.jpg
+    - assets/miniatures/57- are you stable.jpg
+    - assets/miniatures/58- roll your feet.jpg
+    - assets/miniatures/59- roll your feet and music.jpg
+    - assets/miniatures/62- Footwork dev derr.jpg
+    - assets/miniatures/63- footwork dev derr.jpg
+    - assets/miniatures/64- footwork knee .jpg
+    - assets/miniatures/65- footwork knee side side.jpg
+    - assets/miniatures/66- footwork triple.jpg
+    - assets/miniatures/67- footwork triple.jpg
+    - assets/miniatures/71- camel walk.jpg
+    - assets/miniatures/72- Moonwalk.jpg
+    - assets/miniatures/76-Applejack.jpg
+    - assets/miniatures/78- pole footwork V1.jpg
+    - assets/miniatures/85- Tic tac toe V1.jpg
+    - assets/miniatures/86- Tic tac toe V1.jpg
+    - assets/miniatures/87- Tic tac toe V1.jpg
+    - assets/miniatures/88 - Tic tac toe V2.jpg
+    - assets/miniatures/89 - Tic tac toe V3.jpg
+    - assets/miniatures/90- ballet triple.jpg
+    - assets/miniatures/100- push pull music.jpg
+    - assets/miniatures/101- Delayedfull.jpg
+    - assets/miniatures/103- stable coté.jpg
+    - assets/miniatures/105-3-leg-action-v2.jpg
+    - assets/miniatures/106- 3 leg action V3.jpg
+    - assets/miniatures/110- taille de pas.jpg
+    - assets/miniatures/111- Jazzbox slide V1.jpg
+    - assets/miniatures/112- Jazzbox slide V2.jpg
+    - assets/miniatures/113- Jazzbox slide V3.jpg
+    - assets/miniatures/114- Duck walk.jpg
+    - assets/miniatures/116-hook.jpg
+    - assets/miniatures/117-keep your frame.jpg
+    - assets/miniatures/118 - CCP.jpg
+    - assets/miniatures/119- red shinny apple.jpg
+    - assets/miniatures/120 - resisted _release.jpg
+    - assets/miniatures/122- bonne distance bras.jpg
+    - assets/miniatures/123 - bulle.jpg
+    - assets/miniatures/124-frame malleable.jpg
+    - assets/miniatures/125- what is your frame.jpg
+    - assets/miniatures/126- mono info lineaire.jpg
+    - assets/miniatures/127- mono info rotatif.jpg
+    - assets/miniatures/128-lineaire-vs-rotationel.jpg
+    - assets/miniatures/129- follow me lineaire.jpg
+    - assets/miniatures/130- follow me prep.jpg
+    - assets/miniatures/131-Miroir-V1.jpg
+    - assets/miniatures/132-miroir-V2.jpg
+    - assets/miniatures/133- miror vs follow me expert.jpg
+    - assets/miniatures/134 - Footwork level change copie.jpg
+    - assets/miniatures/136- stretch routine solo.jpg
+    - assets/miniatures/137- compression routine solo.jpg
+    - assets/miniatures/138-mambo-drill.jpg
+    - assets/miniatures/139-air-connexion.jpg
+    - assets/miniatures/140-Connexion latérale.jpg
+    - assets/miniatures/141 - Constante connexion v1.jpg
+    - assets/miniatures/142- constante connexion v2.jpg
+    - assets/miniatures/144- Spirale.jpg
+    - assets/miniatures/145- ferme les yeux V1.jpg
+    - assets/miniatures/146-close-your-eyes.jpg
+    - assets/miniatures/147- prep 3 times elastic.jpg
+    - assets/miniatures/148- tour int connexion.jpg
+    - assets/miniatures/149- prep dans pattern.jpg
+    - assets/miniatures/150 - contre poids V1.jpg
+    - assets/miniatures/151- Contre poids V2.jpg
+    - assets/miniatures/152-Counter weight V3.jpg
+    - assets/miniatures/153 - Chaise V1.jpg
+    - assets/miniatures/157- Dance and breath.jpg
+    - assets/miniatures/158- Breath & Heigh.jpg
+    - assets/miniatures/159- Breath & Counterwieight.jpg
+    - assets/miniatures/160- Breath & pre lead.jpg
+    - assets/miniatures/161-int-ext.jpg
+    - assets/miniatures/162-same page.jpg
+    - assets/miniatures/163 - Shape me.jpg
+    - assets/miniatures/164- start the dance.jpg
+    - assets/miniatures/165-7-hands-hold.jpg
+    - assets/miniatures/166-3-HAUTEURS.jpg
+    - assets/miniatures/167-free arm where are you.jpg
+    - assets/miniatures/168- dance in the water.jpg
+    - assets/miniatures/169- move your free arm.jpg
+    - assets/miniatures/170 - flamenco fingers.jpg
+    - assets/miniatures/171- move your arm from your center.jpg
+    - assets/miniatures/174- arm isolation.jpg
+    - assets/miniatures/175- Warm up articulation.jpg
+    - assets/miniatures/178- debut mvt bras libre.jpg
+    - assets/miniatures/180-create with your free arm.jpg
+    - assets/miniatures/183- isolation hanche V1.jpg
+    - assets/miniatures/184- isolation hanche V2.jpg
+    - assets/miniatures/185- isolation chest V1.jpg
+    - assets/miniatures/186- isolation chest V2.jpg
+    - assets/miniatures/187- isolation chest V3.jpg
+    - assets/miniatures/188- wave.jpg
+    - assets/miniatures/189- wave coté.jpg
+    - assets/miniatures/190- wave and dance.jpg
+    - assets/miniatures/191- petite wave.jpg
+    - assets/miniatures/193- stretch routine couple.jpg
+    - assets/miniatures/194- drill torsion V3.jpg
+    - assets/miniatures/201-hit the wall.jpg
+    - assets/miniatures/202- swing your body isolation.jpg
+    - assets/miniatures/208 - even dynamic isolation body.jpg
+    - assets/miniatures/225- % isolation.jpg
+    - assets/miniatures/226- count in 8 solo.jpg
+    - assets/miniatures/233- royston line dance.jpg
+    - assets/miniatures/234- 1 and 33 count V1.jpg
+    - assets/miniatures/235- 1 and 33 count V2.jpg
+    - assets/miniatures/236- hit it with clear pose.jpg
+    - assets/miniatures/237- hit it with your head.jpg
+    - assets/miniatures/238- hit it with your arms.jpg
+    - assets/miniatures/239- hit it with your feet-legs.jpg
+    - assets/miniatures/240- hit it with your chest.jpg
+    - assets/miniatures/241- hit it with your hips.jpg
+    - assets/miniatures/242-hit-it-with-partner-face-audience.jpg
+    - assets/miniatures/243-Hit-oy-with-match-and-move.jpg
+    - assets/miniatures/244- hit it with level change.jpg
+    - assets/miniatures/245-hit-ir-with-speed-change.jpg
+    - assets/miniatures/247-Walk-&-count-V2.jpg
+    - assets/miniatures/258- 16 counts.jpg
+    - assets/miniatures/259- create with your arm.jpg
+    - assets/miniatures/307-LEAD-VS-FOLLOW.jpg
+    - assets/miniatures/308-Match-&-move-V1.jpg
+    - assets/miniatures/309-Match-&-move-V2.jpg
+    - assets/miniatures/310-Match-&-move-V3.jpg
+    - assets/miniatures/311-Match-&-move-V4.jpg
+    - assets/miniatures/312-Match-&-move-V5.jpg
+    - assets/miniatures/316- Rond de bras.jpg
+    - assets/miniatures/317 cut off and free arm.jpg
+    - assets/miniatures/318- Trust me.jpg
+    - assets/miniatures/331- stop free spin follow copie.jpg
+    - assets/miniatures/332- stretch your body with elastic band.jpg
+    - assets/miniatures/341- BWA V1.jpg
+    - assets/miniatures/342- BWA V2.jpg
+    - assets/miniatures/343- BWA V3.jpg
+    - assets/miniatures/344- move from your body with elastic.jpg
+    - assets/miniatures/346-stay on the line.jpg
+    - assets/miniatures/348 - Tic tac toe V3 .jpg
+    - assets/miniatures/349- Tic tac toe V3.jpg
+    - assets/miniatures/350 - Tic tac toe V3.jpg
+    - assets/miniatures/351- Tic tac toe V4.jpg
+    - assets/miniatures/353- footwork dev derr CBMP....jpg
+    - assets/miniatures/354- footwork bal changes.jpg
+    - assets/miniatures/355- foot work twist.jpg
+    - assets/miniatures/356- footwork figure 8.jpg
+    - assets/miniatures/357- footwork step touchs.jpg
+    - assets/miniatures/358-lego et frame couple.jpg
+    - assets/miniatures/359- CCP.jpg
+    - assets/miniatures/360- red shinny apple couple.jpg
+    - assets/miniatures/361-resisted relesed couple.jpg
+    - assets/miniatures/362- point of no more.jpg
+    - assets/miniatures/363-compression routine couple.jpg
+    - assets/miniatures/364- tour ext connexion.jpg
+    - assets/miniatures/365- prep 3 fois V2 couple.jpg
+    - assets/miniatures/366- balloons couple.jpg
+    - assets/miniatures/367- extension music solo.jpg
+    - assets/miniatures/368- extension solo anchor.jpg
+    - assets/miniatures/369- extension transition solo.jpg
+    - assets/miniatures/370- Tuck connexion couple.jpg
+    - assets/miniatures/372- free arm where are you .jpg
+    - assets/miniatures/373 - count in 8 couple.jpg
+    - assets/miniatures/375- 3 times L couple.jpg
+    - assets/miniatures/376- finger spin V3.jpg
+    - assets/miniatures/377- Finger spin V4.jpg
+    - assets/miniatures/378 -arc et anchor F V2.jpg
+    - assets/miniatures/379- warm up ballet.jpg
+    - assets/miniatures/380- fin mvt bras libre.jpg
+    - assets/miniatures/381- basic and snap.jpg
+    - assets/miniatures/382-basic and tap.jpg
+    - assets/miniatures/383- basic and sharp elbow.jpg
+    - assets/miniatures/384 basic and fingers.jpg
+    - assets/miniatures/386- free arm and breath couple.jpg
+    - assets/miniatures/398-follow freeze.jpg
+    - assets/miniatures/399-hit it with isolation.jpg
+    - assets/miniatures/408- match and move v6.jpg
+    - assets/miniatures/409-Walk-and-count-V3.jpg
+    - assets/miniatures/410-legato-staccato.jpg
+    - assets/miniatures/419- 16 counts.jpg
+    - assets/miniatures/421- turn on the floor.jpg
+    - assets/miniatures/425- wave and side couple.jpg
+    - assets/miniatures/434-are you stablejpg.jpg
+    - assets/miniatures/435-follow-me-lineaire-vs-prep.jpg
+    - assets/miniatures/436-Follow-me-V2.jpg
+    - assets/miniatures/437-follow-me-v3.jpg
+    - assets/miniatures/438-7-hands-hold-follower.jpg
+    - assets/miniatures/442-Kick-ball-change-3&4.jpg
+    - assets/miniatures/443-kick-ball-change-1&2.jpg
+    - assets/miniatures/444-tap-ball-change-3&4.jpg
+    - assets/miniatures/445-Tap-ball-change-1&2.jpg
+    - assets/miniatures/446-knee-ball-chnage-3&4.jpg
+    - assets/miniatures/447-knee-ball-change-1&2.jpg
+    - assets/miniatures/449-hicth-ball-change-1&2.jpg
+    - assets/miniatures/450-knee-and-ball-change.jpg
+    - assets/miniatures/451-ball change and dance.jpg
