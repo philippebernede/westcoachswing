@@ -113,11 +113,12 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             ));
       } else {
         //cas où la personne se crée un compte dans se cas on crée l'utilisateur sur firebase et on initialise la liste des drills
-        await Provider.of<DrillList>(ctx, listen: false).initDrills();
+
         authResult = await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
+        await Provider.of<DrillList>(ctx, listen: false).initDrills();
         try {
           await FirebaseFirestore.instance
               .collection('students')

@@ -4,17 +4,19 @@ import 'package:url_launcher/url_launcher.dart';
 
 class TermsAndConditions extends StatelessWidget {
   final TextStyle paragraphTextStyle =
-      TextStyle(color: Colors.black, height: 1.2);
-  final TextStyle titleTextStyle =
-      TextStyle(color: Colors.black, height: 1.2, fontWeight: FontWeight.bold);
-  final TextStyle linkTextStyle = TextStyle(
+      const TextStyle(color: Colors.black, height: 1.2);
+  final TextStyle titleTextStyle = const TextStyle(
+      color: Colors.black, height: 1.2, fontWeight: FontWeight.bold);
+  final TextStyle linkTextStyle = const TextStyle(
       color: Colors.blue, height: 1.2, decoration: TextDecoration.underline);
+
+  const TermsAndConditions({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Terms & Conditions'),
+        title: const Text('Terms & Conditions'),
       ),
       body: Container(
         decoration: const BoxDecoration(

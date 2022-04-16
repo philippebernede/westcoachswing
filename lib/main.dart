@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/subjects.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 import 'package:westcoachswing/screens/root_page.dart';
 import 'package:westcoachswing/utilities/constants.dart';
@@ -13,11 +18,45 @@ import 'package:westcoachswing/objects/favorites.dart';
 import 'package:westcoachswing/objects/drill_filters.dart';
 import 'package:westcoachswing/components/workouts.dart';
 import 'package:westcoachswing/objects/execution_list.dart';
+import 'package:westcoachswing/components/received_notification.dart';
+
+//------------------------------------------LOCAL NOTIFICATION SETUP------------------------------------------
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// Streams are created so that app can respond to notification-related events since the plugin is initialised in the `main` function
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+    BehaviorSubject<ReceivedNotification>();
+
+final BehaviorSubject<String?> selectNotificationSubject =
+    BehaviorSubject<String>();
+
+Future selectNotification(String? payload) async {
+  if (payload != null) {
+    debugPrint('notification payload: $payload');
+  }
+
+  selectNotificationSubject.add(payload);
+}
+
+//----------------------------NEW NOTIFICATION ADD--------------------------------------------------------------
+//const MethodChannel platform =
+//    MethodChannel('dexterx.dev/flutter_local_notifications_example');
+
+Future<void> _configureLocalTimeZone() async {
+  tz.initializeTimeZones();
+  String timezone = await FlutterNativeTimezone.getLocalTimezone();
+//  final String timeZoneName = await platform.invokeMethod('getTimeZoneName');
+  tz.setLocalLocation(tz.getLocation(timezone));
+}
+
+//-------------------------------------main function-----------------------------------------------
 
 Future<void> main() async {
   bool isConnected = false;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await _configureLocalTimeZone();
   final ConnectivityResult result = await Connectivity().checkConnectivity();
   if (result == ConnectivityResult.wifi) {
     isConnected = true;
@@ -26,6 +65,22 @@ Future<void> main() async {
   } else {
     isConnected = false;
   }
+
+  //--------------------------START local Notification initialisation NEW-------------------------------------
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+// initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings(
+    'app_icon',
+  );
+  final IOSInitializationSettings initializationSettingsIOS =
+      IOSInitializationSettings();
+  final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+      onSelectNotification: selectNotification);
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => DrillList()),

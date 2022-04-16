@@ -1,3 +1,5 @@
+import 'package:westcoachswing/utilities/size_config.dart';
+
 import '/objects/drill.dart';
 import '/objects/student.dart';
 import '/objects/student_list.dart';
@@ -5,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
+  const EditProfile({Key? key}) : super(key: key);
+
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -14,10 +18,15 @@ class _EditProfileState extends State<EditProfile> {
   final _formRole = GlobalKey<FormState>();
   final _formLevel = GlobalKey<FormState>();
   Student student = Student();
+  List<bool>? _selectedDays = List.generate(7, (_) => false);
+  bool? reminderIsOn;
   int? selectedRadioRole;
   int? selectedRadioLevel;
   bool isChanged = false;
   bool isSet = false;
+  TimeOfDay? time;
+  String? stringHour;
+  String? stringMin;
   TextStyle textStyleHighlight = const TextStyle(
     fontWeight: FontWeight.bold,
     shadows: [
@@ -42,17 +51,19 @@ class _EditProfileState extends State<EditProfile> {
     student.role = Role.values[selectedRadioRole!];
     student.id = studentList.currentStudent.id;
     student.category = selectedRadioLevel!;
+    student.notificationDays = _selectedDays;
+    student.notificationTime = '${time!.hour}:${time!.minute}';
+
     print('selectedRadio : $selectedRadioRole student.role: ${student.role}');
 
     try {
       await studentList.updateStudentProfile(student);
-      ScaffoldMessenger.of(ctx)
-          .showSnackBar(const SnackBar(content: Text('Saved')));
+      ScaffoldMessenger.of(ctx).showSnackBar(
+          const SnackBar(content: Text('Changes have been saved')));
     } catch (err) {
       ScaffoldMessenger.of(ctx).showSnackBar(const SnackBar(
           content: Text(
               'Something went wrong. Please try again later or report the problem')));
-      print(err);
     }
   }
 
@@ -68,6 +79,23 @@ class _EditProfileState extends State<EditProfile> {
       selectedRadioLevel = Provider.of<StudentList>(context, listen: false)
           .currentStudent
           .category;
+      // time.hour=Provider.of<StudentList>(context, listen: false)
+      //     .currentStudent.notificationTime
+      String stringTime = Provider.of<StudentList>(context, listen: false)
+          .currentStudent
+          .notificationTime!;
+      _selectedDays = Provider.of<StudentList>(context, listen: false)
+          .currentStudent
+          .notificationDays;
+      time = TimeOfDay(
+          hour: int.parse(stringTime.split(":")[0]),
+          minute: int.parse(stringTime.split(":")[1]));
+      Provider.of<StudentList>(context, listen: false)
+                  .currentStudent
+                  .notificationDays ==
+              [false, false, false, false, false, false, false]
+          ? reminderIsOn = false
+          : reminderIsOn = true;
     }
     isSet = true;
   }
@@ -75,9 +103,10 @@ class _EditProfileState extends State<EditProfile> {
 //  @override
 //  void initState() {
 //    // TODO: implement initState
+//    student.notificationDays==[false,false,false,false,false,false,false] ? reminderIsOn=false : reminderIsOn=true;
 //    super.initState();
-////    TODO récupérer l'information de l'étudiant
-//    selectedRadio = student.role.index;
+// ////    TODO récupérer l'information de l'étudiant
+// //    selectedRadio = student.role.index;
 //  }
 
   setSelectedRadioRole(int val) {
@@ -128,6 +157,9 @@ class _EditProfileState extends State<EditProfile> {
         ],
       ),
       body: Container(
+        constraints: BoxConstraints(
+          minHeight: SizeConfig.blockSizeVertical! * 100,
+        ),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/whiteBrick.jpg"),
@@ -266,39 +298,38 @@ class _EditProfileState extends State<EditProfile> {
                         const SizedBox(
                           height: 20.0,
                         ),
-//                      ListTile(
-//                        contentPadding: EdgeInsets.all(0.0),
-//                        title: Text('Enable Practice Reminders'),
-//                        trailing: Switch(
-//                            value: reminderIsOn,
-//                            onChanged: (_) {
-//                              isChanged = true;
-//                              setState(() {
-//                                reminderIsOn = !reminderIsOn;
-//                              });
-//                            }),
-//                      ),
-//                      reminderIsOn ? dayTimeButtons() : Container(),
-//                      SettingsStaticInfo(),
+                        ListTile(
+                          contentPadding: const EdgeInsets.all(0.0),
+                          title: const Text('Enable Practice Reminders'),
+                          trailing: Switch(
+                              value: reminderIsOn!,
+                              onChanged: (_) {
+                                isChanged = true;
+                                setState(() {
+                                  reminderIsOn = !reminderIsOn!;
+                                });
+                              }),
+                        ),
+                        reminderIsOn! ? dayTimeButtons() : Container(),
                       ],
                     ),
                   ),
                 ),
               ),
-//            FlatButton(
-//                color: Colors.white,
-//                onPressed: () async {
-//                  await signOut();
-//                  Navigator.pushReplacement(
-//                      context,
-//                      MaterialPageRoute(
-//                          builder: (context) => AuthenticationScreen()));
-//                },
-//                child: Text(
-//                  'Log out',
-//                  style: TextStyle(
-//                      decoration: TextDecoration.underline, color: Colors.red),
-//                )),
+              // FlatButton(
+              //     color: Colors.white,
+              //     onPressed: () async {
+              //       await signOut();
+              //       Navigator.pushReplacement(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (context) => AuthenticationScreen()));
+              //     },
+              //     child: Text(
+              //       'Log out',
+              //       style: TextStyle(
+              //           decoration: TextDecoration.underline, color: Colors.red),
+              //     )),
             ],
           ),
         ),
@@ -306,93 +337,142 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-//  Column dayTimeButtons() {
-//    return Column(
-//      crossAxisAlignment: CrossAxisAlignment.end,
-//      children: <Widget>[
-//        Text('Set your practice days :'),
-//        ToggleButtons(
-//          children: <Widget>[
-//            Text('M'),
-//            Text('T'),
-//            Text('W'),
-//            Text('T'),
-//            Text('F'),
-//            Text('S'),
-//            Text('S'),
-//          ],
-//          isSelected: _selectedDays,
-//          fillColor: Theme.of(context).accentColor,
-//          selectedColor: Colors.white,
-//          onPressed: (int index) {
-//            isChanged = true;
-//            setState(() {
-//              _selectedDays[index] = !_selectedDays[index];
-//            });
-//          },
-//        ),
-//        Text('Set your practice time :'),
-//        Row(
-//          mainAxisAlignment: MainAxisAlignment.end,
-//          children: <Widget>[
-//            Card(
-//              shape: RoundedRectangleBorder(
-//                  side: BorderSide(
-//                      width: 2.0, color: Theme.of(context).accentColor),
-//                  borderRadius: BorderRadius.circular(8.0)),
-//              child: Padding(
-//                padding: const EdgeInsets.all(8.0),
-//                child:
-//                    Text(time.hour > 9 ? '${stringHour.substring(0, 1)}' : '0'),
-//              ),
-//            ),
-//            Card(
-//              shape: RoundedRectangleBorder(
-//                  side: BorderSide(
-//                      width: 2.0, color: Theme.of(context).accentColor),
-//                  borderRadius: BorderRadius.circular(8.0)),
-//              child: Padding(
-//                padding: const EdgeInsets.all(8.0),
-//                child: Text(time.hour > 9
-//                    ? '${stringHour.substring(1, 2)}'
-//                    : '$stringHour'),
-//              ),
-//            ),
-//            Text(' : '),
-//            Card(
-//              shape: RoundedRectangleBorder(
-//                  side: BorderSide(
-//                      width: 2.0, color: Theme.of(context).accentColor),
-//                  borderRadius: BorderRadius.circular(8.0)),
-//              child: Padding(
-//                padding: const EdgeInsets.all(8.0),
-//                child: Text(
-//                    time.minute > 9 ? '${stringMin.substring(0, 1)}' : '0'),
-//              ),
-//            ),
-//            Card(
-//              shape: RoundedRectangleBorder(
-//                  side: BorderSide(
-//                      width: 2.0, color: Theme.of(context).accentColor),
-//                  borderRadius: BorderRadius.circular(8.0)),
-//              child: Padding(
-//                padding: const EdgeInsets.all(8.0),
-//                child: Text(time.minute > 9
-//                    ? '${stringMin.substring(1, 2)}'
-//                    : '$stringMin'),
-//              ),
-//            ),
-//            IconButton(
-//                icon: Icon(Icons.arrow_drop_down),
-//                onPressed: () {
-//                  isChanged = true;
-//                  _setTime();
-//                }),
-//          ],
-//        ),
-//      ],
-//    );
-//  }
+  Column dayTimeButtons() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        const Text('Set your practice time and days :'),
+        const SizedBox(
+          height: 5.0,
+        ),
+        FlatButton(
+            shape: RoundedRectangleBorder(
+                side: BorderSide(
+                    width: 2.0, color: Theme.of(context).colorScheme.secondary),
+                borderRadius: BorderRadius.circular(8.0)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Row(
+//                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    time!.format(context),
+                    style: TextStyle(
+                        fontSize: 50,
+                        color: Theme.of(context).colorScheme.secondary),
+                  ),
+                  const Icon(Icons.arrow_drop_down),
+                ],
+              ),
+            ),
+            onPressed: () {
+              isChanged = true;
+              _setTime();
+            }),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: <Widget>[
+        //     Card(
+        //       shape: RoundedRectangleBorder(
+        //           side: BorderSide(
+        //               width: 2.0, color: Theme.of(context).accentColor),
+        //           borderRadius: BorderRadius.circular(8.0)),
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: Text(
+        //             time!.hour > 9 ? '${stringHour!.substring(0, 1)}' : '0'),
+        //       ),
+        //     ),
+        //     Card(
+        //       shape: RoundedRectangleBorder(
+        //           side: BorderSide(
+        //               width: 2.0, color: Theme.of(context).accentColor),
+        //           borderRadius: BorderRadius.circular(8.0)),
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: Text(time!.hour > 9
+        //             ? '${stringHour!.substring(1, 2)}'
+        //             : '$stringHour'),
+        //       ),
+        //     ),
+        //     Text(' : '),
+        //     Card(
+        //       shape: RoundedRectangleBorder(
+        //           side: BorderSide(
+        //               width: 2.0, color: Theme.of(context).accentColor),
+        //           borderRadius: BorderRadius.circular(8.0)),
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: Text(
+        //             time!.minute > 9 ? '${stringMin!.substring(0, 1)}' : '0'),
+        //       ),
+        //     ),
+        //     Card(
+        //       shape: RoundedRectangleBorder(
+        //           side: BorderSide(
+        //               width: 2.0, color: Theme.of(context).accentColor),
+        //           borderRadius: BorderRadius.circular(8.0)),
+        //       child: Padding(
+        //         padding: const EdgeInsets.all(8.0),
+        //         child: Text(time!.minute > 9
+        //             ? '${stringMin!.substring(1, 2)}'
+        //             : '$stringMin'),
+        //       ),
+        //     ),
+        //     IconButton(
+        //         icon: Icon(Icons.arrow_drop_down),
+        //         onPressed: () {
+        //           isChanged = true;
+        //           _setTime();
+        //         }),
+        //   ],
+        // ),
+        const SizedBox(
+          height: 5.0,
+        ),
+        ToggleButtons(
+          children: const <Widget>[
+            Text('M'),
+            Text('T'),
+            Text('W'),
+            Text('T'),
+            Text('F'),
+            Text('S'),
+            Text('S'),
+          ],
+          isSelected: _selectedDays!,
+          fillColor: Theme.of(context).colorScheme.secondary,
+          selectedColor: Colors.white,
+          onPressed: (int index) {
+            isChanged = true;
+            setState(() {
+              _selectedDays![index] = !_selectedDays![index];
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  _setTime() async {
+    TimeOfDay? t = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        builder: (BuildContext context, Widget? child) {
+          return MediaQuery(
+              data:
+                  MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+              child: child!);
+        });
+    if (t != null) {
+      setState(() {
+        time = t;
+        stringHour = time!.hour.toString();
+        stringMin = time!.minute.toString();
+      });
+    }
+  }
 
   Form roleRow() {
     return Form(

@@ -128,11 +128,15 @@ class StudentList with ChangeNotifier {
         'Last Name': student.lastName,
         'Role': student.role.toString(),
         'Category': student.category,
+        'Notification Days': student.notificationDays,
+        'Notification Time': student.notificationTime,
       });
       currentStudent.firstName = student.firstName;
       currentStudent.lastName = student.lastName;
       currentStudent.role = student.role;
       currentStudent.category = student.category;
+      currentStudent.notificationTime = student.notificationTime;
+      currentStudent.notificationDays = student.notificationDays;
     } catch (err) {
       print(err.toString());
     }
@@ -143,14 +147,14 @@ class StudentList with ChangeNotifier {
 //    print('student updated');
   }
 
-  Future<void> updateStudentNotification() async {
+  Future<void> updateStudentNotification(Student student) async {
     try {
       await FirebaseFirestore.instance
           .collection('students')
           .doc(currentStudent.id)
           .update({
-        'Notification Time': currentStudent.notificationTime,
-        'Notification Days': currentStudent.notificationDays,
+        'Notification Time': student.notificationTime,
+        'Notification Days': student.notificationDays,
       });
     } catch (err) {
       print(err.toString());

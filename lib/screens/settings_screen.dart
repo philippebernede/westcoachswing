@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -62,7 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
         actions: <Widget>[
 //          IconButton(
 //              icon: Icon(
@@ -72,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 //                if (isChanged) _saveForm();
 //              }),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.close,
             ),
             onPressed: () => Navigator.pop(context),
@@ -94,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         'Profile',
                         style: Theme.of(context).textTheme.headline6,
                       ),
-                      SettingsButton('Edit Profile and Role', () {
+                      SettingsButton('Edit Profile and Settings', () {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -136,14 +138,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         'Other',
                         style: Theme.of(context).textTheme.headline6,
                       ),
-                      SettingsStaticInfo(),
+                      const SettingsStaticInfo(),
                     ],
                   ),
                 ),
               ),
             ),
             FlatButton.icon(
-                icon: Icon(
+                icon: const Icon(
                   Icons.exit_to_app,
                   color: Colors.red,
                 ),
@@ -157,9 +159,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AuthenticationScreen()));
+                          builder: (context) => const AuthenticationScreen()));
                 },
-                label: Text(
+                label: const Text(
                   'Log out',
                   style: TextStyle(
                       decoration: TextDecoration.underline, color: Colors.red),
