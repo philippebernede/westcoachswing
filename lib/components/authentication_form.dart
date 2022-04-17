@@ -139,6 +139,8 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
           borderSide: const BorderSide(color: Colors.white, width: 3)),
       hintText: hintText,
       hintStyle: inputTextStyle,
+      errorStyle:
+          const TextStyle(color: Colors.white, backgroundColor: Colors.teal),
     );
   }
 
@@ -244,6 +246,8 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   ),
                   filled: true,
                   fillColor: Colors.white,
+                  errorStyle: const TextStyle(
+                      color: Colors.white, backgroundColor: Colors.teal),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide:
