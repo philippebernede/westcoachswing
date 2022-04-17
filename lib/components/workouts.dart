@@ -486,7 +486,7 @@ class Workouts with ChangeNotifier {
         soloWorkouts[1] = workouts[1]!;
         soloWorkouts[2] = workouts[2]!;
       } catch (err) {
-        print('workouts/todaysWorkout2/updateData : ${err.toString()}');
+        // print('workouts/todaysWorkout2/updateData : ${err.toString()}');
       }
     } else {
 //      on récupère simplement le workout qui est déjà dans la base de données
@@ -503,8 +503,8 @@ class Workouts with ChangeNotifier {
         soloWorkouts[2] = workouts[2]!;
 //        return workouts;
       } catch (err) {
-        print(
-            'workouts/todaysWorkout2/querysnapshot getDocuments : ${err.toString()}');
+        // print(
+        //     'workouts/todaysWorkout2/querysnapshot getDocuments : ${err.toString()}');
       }
     }
 

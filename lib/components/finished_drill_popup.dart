@@ -92,7 +92,7 @@ class _FinishedDrillPopupState extends State<FinishedDrillPopup> {
               const Flexible(
                 fit: FlexFit.loose,
                 child: Text(
-                    'Congratulations you finished this drill. Now help us personalize your experience by rating this drill :'),
+                    'Congratulations you finished this drill. Now help us personalize your experience by rating this drill. This drill was :'),
               ),
               const SizedBox(
                 height: 20.0,

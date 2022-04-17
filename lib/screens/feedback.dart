@@ -81,7 +81,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       });
 
       sentFeedback = _feedbacks == null
-          ? {'There is no recorded feedback with your Student ID': false}
+          ? {'There is no recorded feedback with your Student ID yet': false}
           : _feedbacks;
 //      initialisation des 2 listes
       sentFeedbackName = [];
@@ -292,12 +292,17 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       ),
                       const Text('Submitted Feedbacks :'),
                       ...sentFeedbackName
-                          .map((e) => Text(
-                                '     - "$e"',
-                                style: TextStyle(
-                                    color: sentFeedback![e]!
-                                        ? Colors.green
-                                        : Colors.red),
+                          .map((e) => Card(
+                                elevation: 7.0,
+                                child: ListTile(
+                                  title: Text(
+                                    '- $e',
+                                    style: TextStyle(
+                                        color: sentFeedback![e]!
+                                            ? Colors.green
+                                            : Colors.black),
+                                  ),
+                                ),
                               ))
                           .toList(),
 //

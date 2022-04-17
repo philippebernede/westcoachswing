@@ -71,10 +71,10 @@ class DrillFilters with ChangeNotifier {
 //    return filter;
 //  }
 
-  void toggleLeader() {
-    this.leader ? leader = false : leader = true;
-    notifyListeners();
-  }
+  // void toggleLeader() {
+  //   this.leader ? leader = false : leader = true;
+  //   notifyListeners();
+  // }
 
   void initializeFilters() {
     leader = false;

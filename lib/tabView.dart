@@ -39,7 +39,7 @@ class _TabViewState extends State<TabView> {
 //  Liste des différents Screen de l'application qui apparaissent dans le menu en bas
   final List<Widget> _children = [
     const HomePage(),
-    DirectoryScreen(),
+    const DirectoryScreen(),
     FavoritesScreen(),
     const Dashboard(),
     const FeedbackScreen(),
@@ -80,7 +80,7 @@ class _TabViewState extends State<TabView> {
                         MaterialPageRoute(
                           builder: (BuildContext context) =>
 //                            CountDownTransitionScreen(drill),
-                              SettingsScreen(),
+                              const SettingsScreen(),
                         ),
                       );
                     })

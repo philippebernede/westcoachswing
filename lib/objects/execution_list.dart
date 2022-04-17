@@ -204,7 +204,7 @@ class ExecutionList with ChangeNotifier {
         },
       );
     } catch (err) {
-      print(err.toString());
+      // print(err.toString());
     }
 //    ajout de l'execution en local pour ne pas avoir à recharger les données lorsqu'on veux afficher le dashboard
 
@@ -326,7 +326,7 @@ class ExecutionList with ChangeNotifier {
   ////        'date et heure de l\'avant derniere execution = ${studentsExecutions[studentsExecutions.length - 1].dateTime}');
   ////    print(
   ////        'Rex de l\'avant derniere execution = ${studentsExecutions[studentsExecutions.length - 1].rex}');rill a été effectué
-  int countRepetitions(List<int> e, int drill) {
+  int countRepetitions(List<int>? e, int drill) {
     if (e == null || e.isEmpty) {
       return 0;
     }

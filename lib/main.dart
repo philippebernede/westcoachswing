@@ -75,10 +75,12 @@ Future<void> main() async {
       AndroidInitializationSettings(
     'app_icon',
   );
-  final IOSInitializationSettings initializationSettingsIOS =
-      IOSInitializationSettings();
+  // final IOSInitializationSettings initializationSettingsIOS =
+  //     IOSInitializationSettings();
   final InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+    android: initializationSettingsAndroid,
+    // iOS: initializationSettingsIOS
+  );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: selectNotification);
 
@@ -103,6 +105,7 @@ class MyApp extends StatelessWidget {
 // Checking if there is an internet connection otherwise you call a simple alert dialog box
         if (!connectionStatus) {
           return const MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: AlertDialog(
               title: kLogoNoir,
               content: Text(
@@ -146,6 +149,7 @@ class MyApp extends StatelessWidget {
                 ),
               ],
               child: MaterialApp(
+                debugShowCheckedModeBanner: false,
                 home: RootPage(),
                 theme: ThemeData(
 //  TODO changer les caractéristiques et le thème en fonction de si c'est IOS ou Android
@@ -153,7 +157,7 @@ class MyApp extends StatelessWidget {
                   appBarTheme: const AppBarTheme(
                     color: Colors.white,
                     iconTheme: IconThemeData(color: Colors.teal),
-                    actionsIconTheme: const IconThemeData(color: Colors.teal),
+                    actionsIconTheme: IconThemeData(color: Colors.teal),
                   ),
 //        bottomAppBarTheme: BottomAppBarTheme(
 //          color: Colors.white,

@@ -2,6 +2,7 @@ import '/components/skip_drill_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '/vimeo_test.dart';
 import '/components/finished_drill_popup.dart';
@@ -139,222 +140,214 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-//-------------------------------------VIDEO PART ------------------------------------------------------------------------------------------------
-      // Use a FutureBuilder to display a loading spinner while waiting for the
-      // VideoPlayerController to finish initializing.
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          FittedBox(
-            fit: BoxFit.cover,
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Container(
-                    height: SizeConfig.blockSizeHorizontal! * 100,
-                    width: SizeConfig.blockSizeVertical! * 100,
-                    //TODO ancienne integration de la video
-                    // child: Align(
-                    //   alignment: Alignment.center,
-                    //   heightFactor: 1,
-                    //   widthFactor: 1,
-                    //   child: AspectRatio(
-                    //     aspectRatio: _videoController!.value.aspectRatio,
-                    //     child: VideoPlayer(_videoController!),
-                    //   ),
-                    // ),
-                    //Nouvelle partie pour la video
-                    child: VimeoTest(
-                        fullscreen: false, videoID: widget.shortVideoURL!)),
-                // Positioned(bottom: 20.0, right: 20.0, child: playPauseButton()),
-              ],
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        FittedBox(
+          fit: BoxFit.cover,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              SizedBox(
+                  height: SizeConfig.blockSizeHorizontal! * 100,
+                  width: SizeConfig.blockSizeVertical! * 100,
+                  //TODO ancienne integration de la video
+                  // child: Align(
+                  //   alignment: Alignment.center,
+                  //   heightFactor: 1,
+                  //   widthFactor: 1,
+                  //   child: AspectRatio(
+                  //     aspectRatio: _videoController!.value.aspectRatio,
+                  //     child: VideoPlayer(_videoController!),
+                  //   ),
+                  // ),
+                  //Nouvelle partie pour la video
+                  child: VimeoTest(
+                      fullscreen: false, videoID: widget.shortVideoURL!)),
+              // Positioned(bottom: 20.0, right: 20.0, child: playPauseButton()),
+            ],
           ),
+        ),
 //------------------------------------------------TIMER PART--------------------------------------------------------------
 
-          AnimatedBuilder(
-            animation: timerController!,
-            builder: (context, child) {
-              return Center(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      AnimatedBuilder(
-                          animation: timerController!,
-                          builder: (BuildContext context, Widget? child) {
-                            return Text(
-                              timerString,
-                              style: const TextStyle(
-                                  fontSize: 80.0, color: Colors.teal),
-                            );
-                          }),
-                      const SizedBox(
-                        height: 5.00,
-                      ),
-                      AnimatedBuilder(
-                        animation: timerController!,
-                        builder: (context, child) {
-//                      controller.isDismissed ? _showDialog() : Text('');
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              RaisedButton.icon(
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(30.0))),
-                                onPressed: () {
-                                  if (timerController!.isAnimating) {
-                                    setState(() {
-                                      timerController!.stop();
-                                    });
-                                  } else {
-                                    setState(() {
-                                      timerController!.reverse(
-                                          from: timerController!.value == 0.0
-                                              ? 1.0
-                                              : timerController!.value);
-                                    });
-                                  }
-                                },
-                                icon: Icon(
-                                  timerController!.isAnimating
-                                      ? Icons.pause
-                                      : Icons.play_arrow,
-                                  color: Colors.white,
-                                ),
-                                label: Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 12.0, bottom: 12.0),
-                                  child: Text(
-                                    timerController!.isAnimating
-                                        ? "Pause Practice"
-                                        : "Start Practice",
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18.0,
-                                        height: 1.5),
-                                  ),
-                                ),
-                                color: Theme.of(context).colorScheme.secondary,
-                                disabledColor:
-                                    Theme.of(context).colorScheme.secondary,
-                              ),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.teal, width: 1.0),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: IconButton(
-                                    icon: const Icon(
-                                      Icons.skip_next,
-                                      color: Colors.teal,
-                                    ),
-                                    onPressed: () {
-                                      _showDialogSkip();
-                                    }),
-                              ),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: Colors.teal, width: 1.0),
-                                  shape: BoxShape.circle,
-                                ),
-                                // decoration: ShapeDecoration(
-                                //   color:
-                                //       Theme.of(context).colorScheme.secondary,
-                                //   shape: const CircleBorder(
-                                //       side: BorderSide(
-                                //     color: Colors.teal,
-                                //   )),
-                                // ),
-                                child: IconButton(
-                                    icon: const Icon(
-                                      Icons.refresh,
-                                      color: Colors.teal,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        timerController!.stop();
-                                        timerController!.value = 1.0;
-                                      });
-                                    }),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        'Not sure about what to do ?',
-                        style: kActionButtonTextStyle,
-                      ),
-                      const Text(
-                        'Simply check out the full drill breakdown just below',
-                        style: kActionButtonTextStyle,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const IconButton(
-                        iconSize: 40.0,
-                        onPressed: null,
-                        icon:
-                            Icon(Icons.keyboard_arrow_down, color: Colors.teal),
-                      ),
-                      RaisedButton(
-                        shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(30.0)),
-                            side: BorderSide(color: Colors.teal)),
-                        color: Colors.white,
-                        // color: Theme.of(context).colorScheme.secondary,
-                        onPressed: () {
-                          setState(() {
-                            timerController!.stop();
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  //     // VimeoPlayer(id: widget.videoURL!),
-                                  // const VimeoPlayer(id: '395212534', autoPlay: true)
-                                  VimeoTest(
-                                      fullscreen: true,
-                                      videoID: widget.videoURL!),
-                              //     FullScreenVideoPlayerScreen(
-                              //   autoPlay: true,
-                              //   videoURL: widget.videoURL!,
-                              // ),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Full drill breakdown HERE",
-                          style: TextStyle(color: Colors.teal),
-                          // style: kActionButtonTextStyle,
-                        ),
-                      ),
-                    ],
+        AnimatedBuilder(
+          animation: timerController!,
+          builder: (context, child) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  AnimatedBuilder(
+                      animation: timerController!,
+                      builder: (BuildContext context, Widget? child) {
+                        return Text(
+                          timerString,
+                          style: const TextStyle(
+                              fontSize: 80.0, color: Colors.teal),
+                        );
+                      }),
+                  const SizedBox(
+                    height: 5.00,
                   ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+                  AnimatedBuilder(
+                    animation: timerController!,
+                    builder: (context, child) {
+//                      controller.isDismissed ? _showDialog() : Text('');
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          RaisedButton.icon(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0))),
+                            onPressed: () {
+                              if (timerController!.isAnimating) {
+                                setState(() {
+                                  Wakelock.disable();
+                                  timerController!.stop();
+                                });
+                              } else {
+                                setState(() {
+                                  Wakelock.enable();
+                                  timerController!.reverse(
+                                      from: timerController!.value == 0.0
+                                          ? 1.0
+                                          : timerController!.value);
+                                });
+                              }
+                            },
+                            icon: Icon(
+                              timerController!.isAnimating
+                                  ? Icons.pause
+                                  : Icons.play_arrow,
+                              color: Colors.white,
+                            ),
+                            label: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 12.0, bottom: 12.0),
+                              child: Text(
+                                timerController!.isAnimating
+                                    ? "Pause Practice"
+                                    : "Start Practice",
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                    height: 1.5),
+                              ),
+                            ),
+                            color: Theme.of(context).colorScheme.secondary,
+                            disabledColor:
+                                Theme.of(context).colorScheme.secondary,
+                          ),
+                          const SizedBox(
+                            width: 5.0,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.teal, width: 1.0),
+                              shape: BoxShape.circle,
+                            ),
+                            child: IconButton(
+                                icon: const Icon(
+                                  Icons.skip_next,
+                                  color: Colors.teal,
+                                ),
+                                onPressed: () {
+                                  _showDialogSkip();
+                                }),
+                          ),
+                          const SizedBox(
+                            width: 5.0,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.teal, width: 1.0),
+                              shape: BoxShape.circle,
+                            ),
+                            // decoration: ShapeDecoration(
+                            //   color:
+                            //       Theme.of(context).colorScheme.secondary,
+                            //   shape: const CircleBorder(
+                            //       side: BorderSide(
+                            //     color: Colors.teal,
+                            //   )),
+                            // ),
+                            child: IconButton(
+                                icon: const Icon(
+                                  Icons.refresh,
+                                  color: Colors.teal,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    timerController!.stop();
+                                    timerController!.value = 1.0;
+                                  });
+                                }),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Not sure about what to do ?',
+                    style: kActionButtonTextStyle,
+                  ),
+                  const Text(
+                    'Simply check out the full drill breakdown just below',
+                    style: kActionButtonTextStyle,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const IconButton(
+                    iconSize: 40.0,
+                    onPressed: null,
+                    icon: Icon(Icons.keyboard_arrow_down, color: Colors.teal),
+                  ),
+                  RaisedButton(
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                        side: BorderSide(color: Colors.teal)),
+                    color: Colors.white,
+                    // color: Theme.of(context).colorScheme.secondary,
+                    onPressed: () {
+                      setState(() {
+                        timerController!.stop();
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              //     // VimeoPlayer(id: widget.videoURL!),
+                              // const VimeoPlayer(id: '395212534', autoPlay: true)
+                              VimeoTest(
+                                  fullscreen: true, videoID: widget.videoURL!),
+                          //     FullScreenVideoPlayerScreen(
+                          //   autoPlay: true,
+                          //   videoURL: widget.videoURL!,
+                          // ),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      "Full drill breakdown HERE",
+                      style: TextStyle(color: Colors.teal),
+                      // style: kActionButtonTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

@@ -211,7 +211,7 @@ class DrillList with ChangeNotifier {
   }
 
 //  création d'une nouvelle liste de drill en fonctions des filtres établis.
-  List<Drill> drillsByFilter(String collect, DrillFilters filterList,
+  List<Drill> drillsByFilter(String collect, DrillFilters? filterList,
       [String? filterName]) {
     List<Drill> filteredDrills = _drills;
 

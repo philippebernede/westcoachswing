@@ -36,7 +36,7 @@ const List<String> kRoleList = [
 ];
 
 //  liste des différents REX possibles
-const List<String> kLevelRates = ['Challenge me', 'Spot on', 'I\'m dying'];
+const List<String> kLevelRates = ['Easy', 'Spot on', 'Hard'];
 
 //  liste des différentes collections
 const List<Map<String, String>> kCollectionList = [

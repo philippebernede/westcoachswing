@@ -64,8 +64,9 @@ class DrillListTile extends StatelessWidget {
               children: [
                 const Text('Level : '),
                 RatingBar.builder(
-                  tapOnlyMode: true,
+                  tapOnlyMode: false,
                   itemCount: 5,
+                  ignoreGestures: true,
                   initialRating: drill!.level!.index.toDouble() + 1,
                   direction: Axis.horizontal,
                   itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
@@ -75,9 +76,7 @@ class DrillListTile extends StatelessWidget {
                     Icons.star,
                     color: Colors.teal,
                   ),
-                  onRatingUpdate: (rating) {
-                    _rating = rating;
-                  },
+                  onRatingUpdate: (rating) {},
                 ),
               ],
             ),

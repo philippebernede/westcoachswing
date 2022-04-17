@@ -34,7 +34,7 @@ class DeleteAccount extends StatelessWidget {
                   user!.delete();
 //                  print('after user deletion');
                 } catch (err) {
-                  print('deleteaccounts/deleteUser : ${err.toString()}');
+                  // print('deleteaccounts/deleteUser : ${err.toString()}');
                 }
               });
 
@@ -69,7 +69,7 @@ class DeleteAccount extends StatelessWidget {
       });
 //      print('deleteaccount/deleteExecutions/executions done');
     } catch (err) {
-      print('deleteaccount/deleteExecutions : ${err.toString()}');
+      // print('deleteaccount/deleteExecutions : ${err.toString()}');
     }
 
 //suppression de la liste des workouts de l'étudiant
@@ -80,7 +80,7 @@ class DeleteAccount extends StatelessWidget {
           .delete();
 //      print('deleteaccount/deleteWorkouts/workouts done');
     } catch (err) {
-      print('deleteAccount/deleteWorkouts : ${err.toString()}');
+      // print('deleteAccount/deleteWorkouts : ${err.toString()}');
     }
     //suppression de l'étudiant
     try {
@@ -90,7 +90,7 @@ class DeleteAccount extends StatelessWidget {
           .delete();
 //      print('deleteaccount/deleteStudent/students done');
     } catch (err) {
-      print('deleteaccounts/deleteStudent : ${err.toString()}');
+      // print('deleteaccounts/deleteStudent : ${err.toString()}');
     }
   }
 }

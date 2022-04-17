@@ -43,8 +43,10 @@ class SettingsStaticInfo extends StatelessWidget {
           launch('mailto:westcoachswing@gmail.com');
         }),
         SettingsButton('Terms & Conditions', () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => TermsAndConditions()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const TermsAndConditions()));
         }),
         SettingsButton('Delete Account', () {
           showDialog(context: context, builder: (_) => const DeleteAccount());

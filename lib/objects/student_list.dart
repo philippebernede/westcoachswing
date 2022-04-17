@@ -79,7 +79,7 @@ class StudentList with ChangeNotifier {
 
 //      notifyListeners();
       } catch (err) {
-        print('workouts/studentList/initStudent : ${err.toString()}');
+        // print('workouts/studentList/initStudent : ${err.toString()}');
       }
     }
   }
@@ -138,7 +138,7 @@ class StudentList with ChangeNotifier {
       currentStudent.notificationTime = student.notificationTime;
       currentStudent.notificationDays = student.notificationDays;
     } catch (err) {
-      print(err.toString());
+      // print(err.toString());
     }
 
 //    final studentIndex =
@@ -157,7 +157,7 @@ class StudentList with ChangeNotifier {
         'Notification Days': student.notificationDays,
       });
     } catch (err) {
-      print(err.toString());
+      // print(err.toString());
     }
   }
 
@@ -173,7 +173,7 @@ class StudentList with ChangeNotifier {
       currentStudent.workoutKey =
           currentStudent.workoutKey == 4 ? 0 : currentStudent.workoutKey! + 1;
     } catch (err) {
-      print(err.toString());
+      // print(err.toString());
     }
   }
 
@@ -203,7 +203,7 @@ class StudentList with ChangeNotifier {
         'Levels': levels,
       });
     } catch (err) {
-      print(err.toString());
+      // print(err.toString());
     }
   }
 

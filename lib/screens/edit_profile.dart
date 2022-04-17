@@ -1,10 +1,30 @@
 import 'package:westcoachswing/utilities/size_config.dart';
 
+import '/tabView.dart';
 import '/objects/drill.dart';
 import '/objects/student.dart';
 import '/objects/student_list.dart';
+import '/components/received_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:timezone/timezone.dart' as tz;
+
+//------------------------------------------------NOTIFICATION----------------------------------------
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+    BehaviorSubject<ReceivedNotification>();
+
+final BehaviorSubject<String> selectNotificationSubject =
+    BehaviorSubject<String>();
+
+late NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+//------------------------------------------------NOTIFICATION END ----------------------------------------
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -54,9 +74,14 @@ class _EditProfileState extends State<EditProfile> {
     student.notificationDays = _selectedDays;
     student.notificationTime = '${time!.hour}:${time!.minute}';
 
-    print('selectedRadio : $selectedRadioRole student.role: ${student.role}');
+    // print('selectedRadio : $selectedRadioRole student.role: ${student.role}');
 
     try {
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.deleteNotificationChannel('weekly notification channel id');
+      _setWeeklyAtDayAndTimeNotification(time!, _selectedDays!, context);
       await studentList.updateStudentProfile(student);
       ScaffoldMessenger.of(ctx).showSnackBar(
           const SnackBar(content: Text('Changes have been saved')));
@@ -66,6 +91,118 @@ class _EditProfileState extends State<EditProfile> {
               'Something went wrong. Please try again later or report the problem')));
     }
   }
+
+//------------------------------------------------NOTIFICATION----------------------------------------
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+//  TODO Remettre en uncomment les 3 lignes ci-dessous
+//     //    FOR Setting up Local notifications
+    _requestIOSPermissions();
+    _configureDidReceiveLocalNotificationSubject();
+    _configureSelectNotificationSubject();
+  }
+
+  //   //--------------------------Functions for Local Notifications------------------------
+  void _requestIOSPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+  }
+
+  void _configureDidReceiveLocalNotificationSubject() {
+    didReceiveLocalNotificationSubject.stream
+        .listen((ReceivedNotification receivedNotification) async {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => CupertinoAlertDialog(
+          title: receivedNotification.title != null
+              ? Text(receivedNotification.title!)
+              : null,
+          content: receivedNotification.body != null
+              ? Text(receivedNotification.body!)
+              : null,
+          actions: [
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: const Text('Ok'),
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TabView(),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
+      );
+    });
+  }
+
+  void _configureSelectNotificationSubject() {
+    selectNotificationSubject.stream.listen((String payload) async {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const TabView()),
+      );
+    });
+  }
+
+//  ---------------------------------------LOCAL NOTIFICATION ADD---------------------------------------
+  tz.TZDateTime _nextInstanceOfDayTime(TimeOfDay timeOfDay, int day) {
+    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+    tz.TZDateTime scheduledDate = tz.TZDateTime(tz.local, now.year, now.month,
+        now.day, timeOfDay.hour, timeOfDay.minute);
+    while (scheduledDate.weekday != day + 1) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+    if (scheduledDate.isBefore(now)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 7));
+    }
+    return scheduledDate;
+  }
+
+//  -------------------------------------------LOCAL NOTIFICATION ADD END--------------------------------
+  Future<void> _setWeeklyAtDayAndTimeNotification(
+      TimeOfDay timeOfDay, List<bool> days, ctx) async {
+    for (int i = 0; i < days.length; i++) {
+      if (days[i]) {
+        await flutterLocalNotificationsPlugin.zonedSchedule(
+            i + 1,
+            'It\'s time to practice',
+            'Check out what we have planned for you today',
+            _nextInstanceOfDayTime(timeOfDay, i),
+            const NotificationDetails(
+              android: AndroidNotificationDetails(
+                  'weekly notification channel id',
+                  'weekly notification channel name',
+                  channelDescription: 'weekly notificationdescription'),
+            ),
+            androidAllowWhileIdle: true,
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime,
+            matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    didReceiveLocalNotificationSubject.close();
+    selectNotificationSubject.close();
+    super.dispose();
+  }
+// //-------------------------------End of the functions for local Notifications-----------------------
 
   @override
   void didChangeDependencies() {
@@ -169,31 +306,30 @@ class _EditProfileState extends State<EditProfile> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Form(
-                    key: _form,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Profile',
-                          style: Theme.of(context).textTheme.headline6,
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Form(
+                  key: _form,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Profile',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(
+                          'First Name',
+                          textAlign: TextAlign.left,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text(
-                            'First Name',
-                            textAlign: TextAlign.left,
-                          ),
-                        ),
-                        TextFormField(
-                          initialValue: studentList.currentStudent.firstName,
+                      ),
+                      TextFormField(
+                        initialValue: studentList.currentStudent.firstName,
 //                        readOnly: _firstNameReadOnly,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 0.0, horizontal: 8.0),
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 8.0),
 //                          suffixIcon: IconButton(
 //                              icon: Icon(Icons.edit),
 //                              onPressed: () {
@@ -206,33 +342,33 @@ class _EditProfileState extends State<EditProfile> {
 //
 //                                print('button pressed');
 //                              }),
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.text,
-                          onChanged: (_) {
-                            isChanged = true;
-                          },
-                          onSaved: (String? value) {
-                            student.firstName = value!;
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.text,
+                        onChanged: (_) {
+                          isChanged = true;
+                        },
+                        onSaved: (String? value) {
+                          student.firstName = value!;
 //                      TODO ajouter la méthode pour modifier le prénom de l'étudiant
-                          },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'This field can\'t be empty.';
-                            }
-                            return null;
-                          },
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text('Last Name'),
-                        ),
-                        TextFormField(
-                          initialValue: studentList.currentStudent.lastName,
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'This field can\'t be empty.';
+                          }
+                          return null;
+                        },
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text('Last Name'),
+                      ),
+                      TextFormField(
+                        initialValue: studentList.currentStudent.lastName,
 //                        readOnly: _lastNameReadOnly,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 0.0, horizontal: 8.0),
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 8.0),
 //                          suffixIcon: IconButton(
 //                              icon: Icon(Icons.edit),
 //                              onPressed: () {
@@ -244,33 +380,33 @@ class _EditProfileState extends State<EditProfile> {
 //                                });
 //                                print('button pressed');
 //                              }),
-                            border: OutlineInputBorder(),
-                          ),
-                          keyboardType: TextInputType.text,
-                          onChanged: (_) {
-                            isChanged = true;
-                          },
-                          onSaved: (String? value) {
-                            student.lastName = value!;
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.text,
+                        onChanged: (_) {
+                          isChanged = true;
+                        },
+                        onSaved: (String? value) {
+                          student.lastName = value!;
 //                      TODO ajouter la méthode pour modifier le nom de l'étudiant
-                          },
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'This field can\'t be empty.';
-                            }
-                            return null;
-                          },
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 8.0),
-                          child: Text('Email (this field can not be changed)'),
-                        ),
-                        TextFormField(
-                          initialValue: studentList.currentStudent.email,
-                          readOnly: true,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 0.0, horizontal: 8.0),
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'This field can\'t be empty.';
+                          }
+                          return null;
+                        },
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text('Email (this field can not be changed)'),
+                      ),
+                      TextFormField(
+                        initialValue: studentList.currentStudent.email,
+                        readOnly: true,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 8.0),
 //                          suffixIcon: IconButton(
 //                              icon: Icon(Icons.edit),
 //                              onPressed: () {
@@ -284,35 +420,34 @@ class _EditProfileState extends State<EditProfile> {
 //                                );
 //                                print('button pressed');
 //                              }),
-                            border: OutlineInputBorder(),
-                          ),
+                          border: OutlineInputBorder(),
                         ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        roleRow(),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        levelRow(),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        ListTile(
-                          contentPadding: const EdgeInsets.all(0.0),
-                          title: const Text('Enable Practice Reminders'),
-                          trailing: Switch(
-                              value: reminderIsOn!,
-                              onChanged: (_) {
-                                isChanged = true;
-                                setState(() {
-                                  reminderIsOn = !reminderIsOn!;
-                                });
-                              }),
-                        ),
-                        reminderIsOn! ? dayTimeButtons() : Container(),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      roleRow(),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      levelRow(),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      ListTile(
+                        contentPadding: const EdgeInsets.all(0.0),
+                        title: const Text('Enable Practice Reminders'),
+                        trailing: Switch(
+                            value: reminderIsOn!,
+                            onChanged: (_) {
+                              isChanged = true;
+                              setState(() {
+                                reminderIsOn = !reminderIsOn!;
+                              });
+                            }),
+                      ),
+                      reminderIsOn! ? dayTimeButtons() : Container(),
+                    ],
                   ),
                 ),
               ),

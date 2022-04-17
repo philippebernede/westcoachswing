@@ -25,7 +25,7 @@ class VimeoPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: _videoPage(this.videoId),
+      initialUrl: _videoPage(videoId),
       javascriptMode: JavascriptMode.unrestricted,
     );
   }

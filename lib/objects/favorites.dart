@@ -61,7 +61,7 @@ class Favorites with ChangeNotifier {
         'Favorites': favoriteDrillID,
       });
     } catch (err) {
-      print(err.toString());
+      // print(err.toString());
     }
 
     notifyListeners();
@@ -79,7 +79,7 @@ class Favorites with ChangeNotifier {
         'Favorites': favoriteDrillID,
       });
     } catch (err) {
-      print(err.toString());
+      // print(err.toString());
     }
     notifyListeners();
   }

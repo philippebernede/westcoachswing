@@ -11,18 +11,21 @@ class LevelRater extends StatelessWidget {
 
   final Icon selectedIcon = const Icon(
     Icons.star,
-    color: Colors.yellow,
+    color: Colors.teal,
   );
   final Icon unSelectedIcon = const Icon(
     Icons.star_border,
-    color: Colors.yellow,
+    color: Colors.teal,
   );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(text),
+        FittedBox(
+          child: Text(text),
+          fit: BoxFit.contain,
+        ),
         IconButton(
             icon: selection ? selectedIcon : unSelectedIcon,
             onPressed: () {

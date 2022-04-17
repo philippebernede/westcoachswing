@@ -19,7 +19,7 @@ class SettingsButton extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             title,
-            style: TextStyle(color: Colors.teal),
+            style: const TextStyle(color: Colors.teal),
           )),
     );
   }
