@@ -75,12 +75,10 @@ Future<void> main() async {
       AndroidInitializationSettings(
     'app_icon',
   );
-  // final IOSInitializationSettings initializationSettingsIOS =
-  //     IOSInitializationSettings();
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    // iOS: initializationSettingsIOS
-  );
+  const IOSInitializationSettings initializationSettingsIOS =
+      IOSInitializationSettings();
+  const InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
       onSelectNotification: selectNotification);
 

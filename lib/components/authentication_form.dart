@@ -36,59 +36,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
 
 //     // ---------------------------------------------------------------------Partie pour ajouter de nouveaux drills--------------------------------------------------------------
 //     // ---------------les nouveaux drills sont à mettre ici dans la list drillAdd------------------------
-//     List<Drill> drillAdd = [
-//       Drill(
-//         name: 'Waltz 2 feet',
-//         level: Level.L2,
-//         duration: '01:30',
-//         id: 2,
-//         imageLink:
-//             'https://www.googleapis.com/drive/v3/files/1WTquweJ8W8m8CXHw_zGxrn3uLDNcDDyY?alt=media&key=AIzaSyA0Tl505CBLuuK2goq6rGKCatWwkd_uSQM',
-//         role: Role.Both,
-//         shortVideoURL: 'https://vimeo.com/566655660/dcedfb952c',
-//         videoURL: 'https://vimeo.com/542405490/efcbdf8c76',
-//         partner: Partner.Solo,
-//         partneringSkill: false,
-//         personalSkill: true,
-//         musicality: false,
-//         styling: false,
-//         technique: false,
-//       ),
-//       Drill(
-//         name: 'Waltz 1 foot',
-//         level: Level.L3,
-//         duration: '01:30',
-//         id: 3,
-//         imageLink:
-//             'https://www.googleapis.com/drive/v3/files/1FDoubDvkoXtcq8zv3TRCuexnaIrq1u26?alt=media&key=AIzaSyA0Tl505CBLuuK2goq6rGKCatWwkd_uSQM',
-//         role: Role.Both,
-//         shortVideoURL: 'https://vimeo.com/566655688/7effdf2d31',
-//         videoURL: 'https://vimeo.com/542405528/0ee9b5a6ad',
-//         partner: Partner.Solo,
-//         partneringSkill: false,
-//         personalSkill: true,
-//         musicality: false,
-//         styling: false,
-//         technique: false,
-//       ),
-//       Drill(
-//         name: 'Fountain',
-//         level: Level.Fundamentals,
-//         duration: '01:30',
-//         id: 6,
-//         imageLink:
-//             'https://www.googleapis.com/drive/v3/files/1krzf5PnGtvLk_lQJKo62YFF4em6IOyjU?alt=media&key=AIzaSyA0Tl505CBLuuK2goq6rGKCatWwkd_uSQM',
-//         role: Role.Both,
-//         shortVideoURL: 'https://vimeo.com/566655709/487afe4f31',
-//         videoURL: 'https://vimeo.com/542405610/d6d4459bc1',
-//         partner: Partner.Solo,
-//         partneringSkill: false,
-//         personalSkill: true,
-//         musicality: false,
-//         styling: false,
-//         technique: false,
-//       ),
-//     ];
+//     List<Drill> drillAdd = [];
 //     drillAdd.forEach(
 //       (element) => FirebaseFirestore.instance
 //           .collection('drill')
