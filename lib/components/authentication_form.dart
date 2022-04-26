@@ -78,8 +78,10 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
       color: Colors.black, fontSize: 17, fontFamily: "CentraleSansRegular");
 
 //  inputdecoration for all the textformfields
-  InputDecoration _inputDecorationTextFormField(String hintText) {
+  InputDecoration _inputDecorationTextFormField(
+      String hintText, IconData preIcon) {
     return InputDecoration(
+      prefixIcon: Icon(preIcon),
       filled: true,
       fillColor: Colors.white,
       enabledBorder: OutlineInputBorder(
@@ -100,12 +102,19 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
     return (!regex.hasMatch(value)) ? false : true;
   }
 
+  bool validatePassword(String value) {
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regExp = RegExp(pattern);
+    return regExp.hasMatch(value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
 // vérifie que si on est en mode login ou signUp si on est en sign up on propose l'entrée du prénom sinon rien
@@ -121,7 +130,8 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                 return null;
               },
               style: inputTextStyle,
-              decoration: _inputDecorationTextFormField('First Name'),
+              decoration: _inputDecorationTextFormField(
+                  'First Name', Icons.account_circle),
               onSaved: (String? value) {
                 _firstName = value!;
               },
@@ -138,12 +148,13 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
               textCapitalization: TextCapitalization.words,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return 'Please enter your Name';
+                  return 'Please enter your Last Name';
                 }
                 return null;
               },
               style: inputTextStyle,
-              decoration: _inputDecorationTextFormField('Last Name'),
+              decoration: _inputDecorationTextFormField(
+                  'Last Name', Icons.account_circle),
               onSaved: (String? value) {
                 _lastName = value!;
               },
@@ -154,6 +165,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
               height: 20,
             ),
           TextFormField(
+            onChanged: (value) => !validateEmail(value.toString().trim()),
             key: const ValueKey('email'),
             autocorrect: false,
             textCapitalization: TextCapitalization.none,
@@ -165,7 +177,7 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
             },
             keyboardType: TextInputType.emailAddress,
             style: inputTextStyle,
-            decoration: _inputDecorationTextFormField('Email address'),
+            decoration: _inputDecorationTextFormField('Email', Icons.email),
             onSaved: (String? value) {
               _studentEmail = value!;
             },
@@ -177,14 +189,17 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
             TextFormField(
               key: const ValueKey('password'),
               validator: (value) {
-                if (value!.isEmpty || value.length < 6) {
-                  return 'Password must be at least 6 characters long.';
+                if (_isLogin) return null;
+                if (value!.isEmpty ||
+                    !validatePassword(value.toString().trim())) {
+                  return 'Your Password is too weak.';
                 }
                 return null;
               },
               obscureText: _obscuredPwd,
               style: inputTextStyle,
               decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.remove_red_eye),
                     onPressed: () {
@@ -210,33 +225,50 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
             const SizedBox(
               height: 20,
             ),
+          if (_isLogin)
+            const Divider(
+              thickness: 1.0,
+              height: 1.0,
+              color: Colors.teal,
+            ),
+          if (_isLogin)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _obscuredPwd = true;
+                        _resetPassword = !_resetPassword;
+                      });
+                    },
+                    child: Text(
+                      _resetPassword ? 'Back to sign in' : "Forgot Password?",
+                      style: const TextStyle(
+                          fontFamily: 'CentraleSansRegular',
+                          fontSize: 13,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           if (widget.isLoading) const CircularProgressIndicator(),
           if (!widget.isLoading)
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
               child: Text(_isLogin
                   ? (_resetPassword ? 'Reset Password' : 'Login')
                   : 'Sign up'),
               onPressed: _trySubmit,
             ),
-          if (_isLogin)
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  setState(() {
-                    _obscuredPwd = true;
-                    _resetPassword = !_resetPassword;
-                  });
-                },
-                child: Text(
-                  _resetPassword ? 'Back to sign in' : "Forgot Password?",
-                  style: const TextStyle(
-                      fontFamily: 'CentraleSansRegular',
-                      fontSize: 17,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-            ),
+
           if (!widget.isLoading)
             TextButton(
               // textColor: Theme.of(context).primaryColor,

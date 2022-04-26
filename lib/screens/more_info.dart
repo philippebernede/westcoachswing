@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:westcoachswing/utilities/constants.dart';
 import '/components/received_notification.dart';
 import '/objects/drill.dart';
 import '/objects/execution_list.dart';
@@ -33,6 +34,8 @@ class MoreInfo extends StatefulWidget {
 }
 
 class _MoreInfoState extends State<MoreInfo> {
+  String dropdownLevelValue = '';
+  String dropdownRoleValue = '';
   int? selectedRadio;
   int? selectedRadioLevel;
   bool reminderIsOn = true;
@@ -310,10 +313,16 @@ class _MoreInfoState extends State<MoreInfo> {
                 const SizedBox(
                   height: 10.0,
                 ),
+                // roleDrop(),
                 roleRow(),
                 const SizedBox(
                   height: 20.0,
                 ),
+                const Text('Please select your level (can be changed later)'),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                // levelDrop(),
                 levelRow(),
                 const SizedBox(
                   height: 20.0,
@@ -526,6 +535,82 @@ class _MoreInfoState extends State<MoreInfo> {
           ],
         )
       ],
+    );
+  }
+
+  Container roleDrop() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(width: 1, color: const Color(0xffd3dde4)),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: dropdownRoleValue,
+            icon: const Icon(Icons.expand_more),
+            iconSize: 24,
+            elevation: 16,
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownRoleValue = newValue!;
+              });
+            },
+            items: <String>[
+              '',
+              'Leader',
+              'Follower',
+              'Both',
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container levelDrop() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(width: 1, color: const Color(0xffd3dde4)),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: dropdownLevelValue,
+            icon: const Icon(Icons.expand_more),
+            iconSize: 24,
+            elevation: 16,
+            onChanged: (String? newValue) {
+              setState(() {
+                dropdownLevelValue = newValue!;
+              });
+            },
+            items: <String>[
+              '',
+              'Newcomer',
+              'Novice',
+              'Intermediate',
+              'Advanced',
+              'All Star / Champions ',
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
     );
   }
 

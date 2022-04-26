@@ -16,6 +16,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   String dropdownValue = 'General';
   String feedback = '';
   late Map<String, bool>? sentFeedback;
+  List<String> sentFeedbackSubject = [];
+  List<String> sentFeedbackDate = [];
   List<String> sentFeedbackName = [];
   List<bool> sentFeedbackFix = [];
 
@@ -104,7 +106,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               'An error occurred while loading your submitted feedbacks, please try again later.'),
         ),
       );
-      print(err.toString());
+      // print(err.toString());
       sentFeedback = null;
     }
   }
@@ -128,6 +130,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
               onPressed: () {
                 Navigator.pop(context);
                 addFeedback();
+                setState(() {});
               },
               color: Theme.of(context).colorScheme.secondary,
             ),
@@ -231,6 +234,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         height: 10.0,
                       ),
                       TextFormField(
+                        textAlignVertical: TextAlignVertical.top,
                         key: const ValueKey('Feedback'),
                         autocorrect: true,
                         maxLines: 10,
@@ -252,6 +256,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               borderSide: const BorderSide(
                                   color: Color(0xffd3dde4), width: 1)),
                           labelText: "Your feedback here",
+                          alignLabelWithHint: true,
                           labelStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 17,

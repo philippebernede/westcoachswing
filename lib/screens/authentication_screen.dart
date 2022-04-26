@@ -133,7 +133,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             'Workout Key': 0,
           });
         } catch (err) {
-          print('authentication_screen/students/setData : ${err.toString()}');
+          // print('authentication_screen/students/setData : ${err.toString()}');
         }
         try {
           await FirebaseFirestore.instance
@@ -148,7 +148,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
             },
           );
         } catch (err) {
-          print('authentication_screen/workouts/setData : ${err.toString()}');
+          // print('authentication_screen/workouts/setData : ${err.toString()}');
         }
         Navigator.pushReplacement(
           context,
@@ -171,8 +171,28 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       setState(() {
         _isLoading = false;
       });
-    } catch (err) {
-      print(err);
+    } catch (error) {
+      String errorMessage = "An undefined Error happened.";
+      if (error.toString().contains("invalid-email")) {
+        errorMessage = "Your email address appears to be malformed.";
+      } else if (error.toString().contains("wrong-password")) {
+        errorMessage = "You entered a wrong password";
+      } else if (error.toString().contains("user-not-found")) {
+        errorMessage = "No user found with this email";
+      } else if (error.toString().contains("user-disabled")) {
+        errorMessage = "User with this email has been disabled.";
+      } else if (error.toString().contains("operation-not-allowed")) {
+        errorMessage = "Signing in with Email and Password is not enabled.";
+      } else if (error.toString().contains("too-many-requests")) {
+        errorMessage = "Too many requests. Try again later.";
+      }
+
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Theme.of(ctx).errorColor,
+        ),
+      );
       setState(() {
         _isLoading = false;
       });
