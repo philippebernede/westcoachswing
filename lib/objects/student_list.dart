@@ -105,6 +105,35 @@ class StudentList with ChangeNotifier {
     currentStudent.category = category;
   }
 
+  String studentsLevelName(int levelNum) {
+    switch (levelNum) {
+      case 0:
+        {
+          return 'Newcomer';
+        }
+      case 1:
+        {
+          return 'Novice';
+        }
+      case 2:
+        {
+          return 'Intermediate';
+        }
+      case 3:
+        {
+          return 'Advanced';
+        }
+      case 4:
+        {
+          return 'All Star / Champions';
+        }
+      default:
+        {
+          return 'Newcomer';
+        }
+    }
+  }
+
 //  Student get getStudent {
 //    Student _student =
 //        students.firstWhere((element) => element.id == TabView.studentID);

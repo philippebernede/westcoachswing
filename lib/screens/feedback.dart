@@ -35,8 +35,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         'Sender Name': '${currentStudent.firstName} ${currentStudent.lastName}',
         'Subject': '$dropdownValue',
         'Feedback': '$feedback',
-        'Date':
-            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
+        'Date': '${DateTime.now()}',
         'Fixed': false,
         'Student ID': currentStudent.id,
       });
@@ -68,8 +67,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     Student currentStudent =
         Provider.of<StudentList>(context, listen: false).currentStudent;
     try {
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('feedback').get();
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('feedback')
+          .orderBy('Date', descending: true)
+          .get();
       querySnapshot.docs.forEach((element) {
         if (element['Sender Name'] ==
                 '${currentStudent.firstName} ${currentStudent.lastName}' ||

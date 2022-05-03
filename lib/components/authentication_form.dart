@@ -189,7 +189,13 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
             TextFormField(
               key: const ValueKey('password'),
               validator: (value) {
-                if (_isLogin) return null;
+                if (_isLogin) {
+                  if (value!.isEmpty) {
+                    return "Password can't be empty";
+                  } else {
+                    return null;
+                  }
+                }
                 if (value!.isEmpty ||
                     !validatePassword(value.toString().trim())) {
                   return 'Your Password is too weak.';
@@ -255,7 +261,13 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                 ),
               ],
             ),
-          if (widget.isLoading) const CircularProgressIndicator(),
+          if (widget.isLoading)
+            const SizedBox(
+                child: FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: CircularProgressIndicator(),
+                ),
+                height: 30.0),
           if (!widget.isLoading)
             ElevatedButton(
               style: ElevatedButton.styleFrom(

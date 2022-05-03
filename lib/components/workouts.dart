@@ -385,8 +385,9 @@ class Workouts with ChangeNotifier {
       }
 // si l'étudiant a déjà fait tous les drills de ce skill il faut refaire le processus en ignorant les drills déjà fait. Sinon cette étape est juste sauté car la liste n'est pas vide
       if (_filteredDrills1.isEmpty) {
+        _filteredDrills1 = drillListFilter(_drills, 'solo');
         _filteredDrills2 =
-            _drills.where((element) => element.skills[key]!).toList();
+            _filteredDrills1.where((element) => element.skills[key]!).toList();
         if (_currentStudent.role != Role.Both) {
           _filteredDrills2 = _filteredDrills2
               .where((element) => element.role == _currentStudent.role)
@@ -396,7 +397,8 @@ class Workouts with ChangeNotifier {
 //  si il y a moins de 5 drills dans la liste alors on prend la catégorie du jour suivant
       else if (_filteredDrills1.length < 5) {
 //          TODO : changer la formule de skill key pour accéder à la catégorie du jour d'après
-        _filteredDrills2 = _drills
+        _filteredDrills2 = drillListFilter(_drills, 'solo');
+        _filteredDrills2 = _filteredDrills2
             .where((element) => element.skills[_currentStudent.workoutKey == 4
                 ? _keyList[0]
                 : _keyList[_currentStudent.workoutKey! + 1]]!)
@@ -407,8 +409,9 @@ class Workouts with ChangeNotifier {
       }
 //      on vérifie que filteredDrills2 a plus de 5 drills sinon on reprend la liste de base
       if (_filteredDrills2.length < 5) {
+        _filteredDrills1 = drillListFilter(_drills, 'solo');
         _filteredDrills2 =
-            _drills.where((element) => element.skills[key]!).toList();
+            _filteredDrills1.where((element) => element.skills[key]!).toList();
       }
 //// filtration en fonction du role lead/follow/both
 //      _filteredDrills3 = _filteredDrills2

@@ -34,8 +34,8 @@ class MoreInfo extends StatefulWidget {
 }
 
 class _MoreInfoState extends State<MoreInfo> {
-  String dropdownLevelValue = '';
-  String dropdownRoleValue = '';
+  String? dropdownLevelValue;
+  String? dropdownRoleValue;
   int? selectedRadio;
   int? selectedRadioLevel;
   bool reminderIsOn = true;
@@ -288,13 +288,15 @@ class _MoreInfoState extends State<MoreInfo> {
           image: DecorationImage(
             image: AssetImage("assets/whiteBrick.jpg"),
             fit: BoxFit.cover,
+            repeat: ImageRepeat.repeat,
           ),
         ),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   'Thank You for signing up! You are one step away from accessing your personal West Coach Swing',
@@ -305,7 +307,7 @@ class _MoreInfoState extends State<MoreInfo> {
                   height: 10.0,
                 ),
                 const Text(
-                    'In order to personalize your experience we just need a few more informations. All selections can be changed later.'),
+                    'In order to personalize your experience we just need a few more informations. All selections can be changed later on.'),
                 const SizedBox(
                   height: 10.0,
                 ),
@@ -313,8 +315,8 @@ class _MoreInfoState extends State<MoreInfo> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                // roleDrop(),
-                roleRow(),
+                roleDrop(),
+                //roleRow(),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -322,8 +324,8 @@ class _MoreInfoState extends State<MoreInfo> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                // levelDrop(),
-                levelRow(),
+                levelDrop(),
+                //levelRow(),
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -549,19 +551,46 @@ class _MoreInfoState extends State<MoreInfo> {
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
+            hint: const Text('Select a role'),
             value: dropdownRoleValue,
+            iconEnabledColor: Colors.teal,
             icon: const Icon(Icons.expand_more),
             iconSize: 24,
             elevation: 16,
             onChanged: (String? newValue) {
-              setState(() {
-                dropdownRoleValue = newValue!;
-              });
+              setState(
+                () {
+                  int val = 0;
+                  dropdownRoleValue = newValue!;
+                  switch (newValue) {
+                    case 'Leader':
+                      {
+                        val = 0;
+                      }
+                      break;
+                    case 'Follower':
+                      {
+                        val = 1;
+                      }
+                      break;
+                    case 'Both':
+                      {
+                        val = 2;
+                      }
+                      break;
+                    default:
+                      {
+                        val = 1;
+                      }
+                      break;
+                  }
+                  setSelectedRadio(val);
+                },
+              );
             },
             items: <String>[
-              '',
-              'Leader',
               'Follower',
+              'Leader',
               'Both',
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
@@ -586,22 +615,57 @@ class _MoreInfoState extends State<MoreInfo> {
         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
+            iconEnabledColor: Colors.teal,
+            hint: const Text('Select a level'),
             value: dropdownLevelValue,
             icon: const Icon(Icons.expand_more),
             iconSize: 24,
             elevation: 16,
             onChanged: (String? newValue) {
               setState(() {
+                int val = 0;
                 dropdownLevelValue = newValue!;
+                switch (newValue) {
+                  case 'Newcomer':
+                    {
+                      val = 0;
+                    }
+                    break;
+                  case 'Novice':
+                    {
+                      val = 1;
+                    }
+                    break;
+                  case 'Intermediate':
+                    {
+                      val = 2;
+                    }
+                    break;
+                  case 'Advanced':
+                    {
+                      val = 3;
+                    }
+                    break;
+                  case 'All Star / Champions':
+                    {
+                      val = 4;
+                    }
+                    break;
+                  default:
+                    {
+                      val = 0;
+                    }
+                    break;
+                }
+                setSelectedRadioLevel(val);
               });
             },
             items: <String>[
-              '',
               'Newcomer',
               'Novice',
               'Intermediate',
               'Advanced',
-              'All Star / Champions ',
+              'All Star / Champions',
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,

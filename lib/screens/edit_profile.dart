@@ -40,6 +40,8 @@ class _EditProfileState extends State<EditProfile> {
   Student student = Student();
   List<bool>? _selectedDays = List.generate(7, (_) => false);
   bool? reminderIsOn;
+  String? dropdownLevelValue;
+  String? dropdownRoleValue;
   int? selectedRadioRole;
   int? selectedRadioLevel;
   bool isChanged = false;
@@ -216,6 +218,12 @@ class _EditProfileState extends State<EditProfile> {
       selectedRadioLevel = Provider.of<StudentList>(context, listen: false)
           .currentStudent
           .category;
+      dropdownRoleValue = Provider.of<StudentList>(context, listen: false)
+          .currentStudent
+          .role!
+          .name;
+      dropdownLevelValue = Provider.of<StudentList>(context, listen: false)
+          .studentsLevelName(selectedRadioLevel!);
       // time.hour=Provider.of<StudentList>(context, listen: false)
       //     .currentStudent.notificationTime
       String stringTime = Provider.of<StudentList>(context, listen: false)
@@ -280,8 +288,8 @@ class _EditProfileState extends State<EditProfile> {
                   Icons.save,
                 ),
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Changes have been saved')));
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //     const SnackBar(content: Text('Changes have been saved')));
                   if (isChanged) _saveForm(studentList, context);
                 }),
           ),
@@ -426,11 +434,11 @@ class _EditProfileState extends State<EditProfile> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      roleRow(),
+                      roleDrop(),
                       const SizedBox(
                         height: 20.0,
                       ),
-                      levelRow(),
+                      levelDrop(),
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -607,6 +615,162 @@ class _EditProfileState extends State<EditProfile> {
         stringMin = time!.minute.toString();
       });
     }
+  }
+
+  Form levelDrop() {
+    return Form(
+      key: _formLevel,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('Dance Level :'),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(width: 1, color: const Color(0xffd3dde4)),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  iconEnabledColor: Colors.teal,
+                  hint: const Text('Select a role'),
+                  value: dropdownLevelValue,
+                  icon: const Icon(Icons.expand_more),
+                  iconSize: 24,
+                  elevation: 16,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      int val = 0;
+                      dropdownLevelValue = newValue!;
+                      switch (newValue) {
+                        case 'Newcomer':
+                          {
+                            val = 0;
+                          }
+                          break;
+                        case 'Novice':
+                          {
+                            val = 1;
+                          }
+                          break;
+                        case 'Intermediate':
+                          {
+                            val = 2;
+                          }
+                          break;
+                        case 'Advanced':
+                          {
+                            val = 3;
+                          }
+                          break;
+                        case 'All Star / Champions':
+                          {
+                            val = 4;
+                          }
+                          break;
+                        default:
+                          {
+                            val = 0;
+                          }
+                          break;
+                      }
+                      setSelectedRadioLevel(val);
+                    });
+                  },
+                  items: <String>[
+                    'Newcomer',
+                    'Novice',
+                    'Intermediate',
+                    'Advanced',
+                    'All Star / Champions',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Form roleDrop() {
+    return Form(
+      key: _formRole,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text('Role(s) :'),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(width: 1, color: const Color(0xffd3dde4)),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  hint: const Text('Select a role'),
+                  iconEnabledColor: Colors.teal,
+                  value: dropdownRoleValue,
+                  icon: const Icon(Icons.expand_more),
+                  iconSize: 24,
+                  elevation: 16,
+                  onChanged: (String? newValue) {
+                    setState(
+                      () {
+                        int val = 0;
+                        dropdownRoleValue = newValue!;
+                        switch (newValue) {
+                          case 'Leader':
+                            {
+                              val = 0;
+                            }
+                            break;
+                          case 'Follower':
+                            {
+                              val = 1;
+                            }
+                            break;
+                          case 'Both':
+                            {
+                              val = 2;
+                            }
+                            break;
+                          default:
+                            {
+                              val = 1;
+                            }
+                            break;
+                        }
+                        setSelectedRadioRole(val);
+                      },
+                    );
+                  },
+                  items: <String>[
+                    'Follower',
+                    'Leader',
+                    'Both',
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Form roleRow() {
