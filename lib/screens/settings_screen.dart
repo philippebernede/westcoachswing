@@ -156,10 +156,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       false;
                   Provider.of<StudentList>(context, listen: false).logout();
                   Provider.of<ExecutionList>(context, listen: false).logout();
-                  Navigator.pushReplacement(
-                      context,
+                  Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                          builder: (context) => const AuthenticationScreen()));
+                          builder: (context) => const AuthenticationScreen()),
+                      (route) => false);
+                  // Navigator.pushReplacement(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const AuthenticationScreen()));
                 },
                 label: const Text(
                   'Log out',

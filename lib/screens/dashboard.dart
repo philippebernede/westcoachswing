@@ -117,7 +117,7 @@ class _DashboardState extends State<Dashboard> {
 //        practiceTimes['styling'] +
 //        practiceTimes['personal skill'] +
 //        practiceTimes['partnering skill'];
-    return Scaffold(
+    return const Scaffold(
       body: SingleChildScrollView(
         child: CalendarView(),
       ),

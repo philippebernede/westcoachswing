@@ -4,12 +4,15 @@ import '/utilities/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+import '/tabView.dart';
 
 class FullScreenVideoPlayerScreen extends StatefulWidget {
   final bool autoPlay;
   final String videoURL;
+  final MaterialPageRoute? nextPage;
   const FullScreenVideoPlayerScreen(
-      {required this.autoPlay, required this.videoURL});
+      {Key? key, required this.autoPlay, required this.videoURL, this.nextPage})
+      : super(key: key);
 
   @override
   _FullScreenVideoPlayerScreenState createState() =>
@@ -21,6 +24,7 @@ class _FullScreenVideoPlayerScreenState
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
   bool isTapped = false;
+  bool hasStarted = false;
 
   @override
   void initState() {
@@ -29,7 +33,9 @@ class _FullScreenVideoPlayerScreenState
     // or the internet.
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
 //   TODO Changer pour récupérer sur network
-    _controller = VideoPlayerController.network(widget.videoURL);
+    _controller =
+        VideoPlayerController.asset('/assets/RPReplay_Final1605824031.MP4');
+    // _controller = VideoPlayerController.network(widget.videoURL);
 
 //    _controller = VideoPlayerController.network(
 //      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
@@ -37,9 +43,30 @@ class _FullScreenVideoPlayerScreenState
 
     // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller?.initialize();
+    _controller!.addListener(checkVideo);
+    // .then(
+    //   (value) => {
+    //     _controller!.addListener(
+    //       () {
+    //         //custom Listner
+    //         setState(
+    //           () {
+    //             if ((_controller!.value.duration ==
+    //                 _controller!.value.position)) {
+    //               //checking the duration and position every time
+    //               //Video Completed//
+    //
+    //               widget.nextPage;
+    //             }
+    //           },
+    //         );
+    //       },
+    //     )
+    //   },
+    // );
 
     // Use the controller to loop the video.
-    _controller?.setLooping(true);
+    _controller?.setLooping(false);
     if (widget.autoPlay) {
       _controller?.play();
     }
@@ -51,7 +78,7 @@ class _FullScreenVideoPlayerScreenState
   void dispose() {
     // Ensure disposing of the VideoPlayerController to free up resources.
     _controller?.dispose();
-
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.dispose();
   }
 
@@ -131,13 +158,10 @@ class _FullScreenVideoPlayerScreenState
               child: FutureBuilder(
                 future: _initializeVideoPlayerFuture,
                 builder: (context, snapshot) {
-                  print(_controller!.value.aspectRatio);
-                  print(MediaQuery.of(context).size);
-
                   if (snapshot.connectionState == ConnectionState.done) {
                     // If the VideoPlayerController has finished initialization, use
                     // the data it provides to limit the aspect ratio of the video.
-                    return Container(
+                    return SizedBox(
                       height: SizeConfig.blockSizeHorizontal! * 100,
 //                      width: SizeConfig.blockSizeVertical * 100,
                       child: AspectRatio(
@@ -155,30 +179,30 @@ class _FullScreenVideoPlayerScreenState
               ),
             ),
 
-            Center(child: controls()),
-            if (isTapped)
-              Align(
-                  alignment: Alignment.bottomCenter,
-                  child: VideoProgressIndicator(_controller!,
-                      allowScrubbing: true)),
-            if (isTapped)
-              Positioned(
-                left: 20.0,
-                top: 20.0,
-                child: IconButton(
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                    onPressed: () {
-//    TODO fixing video placement when screen pops
-                      SystemChrome.setPreferredOrientations([
-                        DeviceOrientation.portraitUp,
-                        DeviceOrientation.portraitDown
-                      ]);
-                      Navigator.pop(context);
-                    }),
-              )
+//             Center(child: controls()),
+//             if (isTapped)
+//               Align(
+//                   alignment: Alignment.bottomCenter,
+//                   child: VideoProgressIndicator(_controller!,
+//                       allowScrubbing: true)),
+//             if (isTapped)
+//               Positioned(
+//                 left: 20.0,
+//                 top: 20.0,
+//                 child: IconButton(
+//                     icon: Icon(
+//                       Icons.arrow_back,
+//                       color: Theme.of(context).colorScheme.secondary,
+//                     ),
+//                     onPressed: () {
+// //    TODO fixing video placement when screen pops
+//                       SystemChrome.setPreferredOrientations([
+//                         DeviceOrientation.portraitUp,
+//                         DeviceOrientation.portraitDown
+//                       ]);
+//                       Navigator.pop(context);
+//                     }),
+//               )
 //          Container(
 //            decoration: BoxDecoration(
 //              color: Colors.blue,
@@ -211,5 +235,24 @@ class _FullScreenVideoPlayerScreenState
         ),
       ),
     );
+  }
+
+  void checkVideo() {
+    // Implement your calls inside these conditions' bodies :
+
+    if (_controller!.value.position >
+            const Duration(seconds: 2, minutes: 0, hours: 0) &&
+        !hasStarted) {
+      hasStarted = true;
+    }
+
+    if (_controller!.value.position == _controller!.value.duration &&
+        hasStarted) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const TabView()),
+      );
+    }
   }
 }

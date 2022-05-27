@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:westcoachswing/screens/full_screen_video_player.dart';
 import 'package:westcoachswing/utilities/constants.dart';
 import '/components/received_notification.dart';
 import '/objects/drill.dart';
@@ -346,7 +347,7 @@ class _MoreInfoState extends State<MoreInfo> {
                   height: 10.0,
                 ),
                 RaisedButton(
-                    child: const Text('Save & Continue to App'),
+                    child: const Text('Save & Continue to Next Step'),
                     onPressed: () {
 //    vérifie que l'on a bien sélectionné un rôle pour l'application
                       if (selectedRadio == null) {
@@ -397,27 +398,37 @@ class _MoreInfoState extends State<MoreInfo> {
                       Future<void> executionList =
                           Provider.of<ExecutionList>(context, listen: false)
                               .getStudentsExecutions();
-                      Future.wait([studentInit, executionList])
-                          .then((value) => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FutureBuilder(
-                                    future: Future.wait(
-                                        [studentInit, executionList]),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<void> snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.done) {
-                                        return const TabView();
-                                      } else {
-                                        return const Center(
-                                            child: CircularProgressIndicator(
-                                                backgroundColor: Colors.pink));
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ));
+                      Future.wait([studentInit, executionList]).then(
+                        (value) => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+//                            CountDownTransitionScreen(drill),
+                                const FullScreenVideoPlayerScreen(
+                              autoPlay: true,
+                              videoURL:
+                                  "https://www.googleapis.com/drive/v3/files/1GoMIV8MwkO7OFv2B9TKTS0klQowEwgft?alt=media&key=AIzaSyA0Tl505CBLuuK2goq6rGKCatWwkd_uSQM",
+                              // nextPage: MaterialPageRoute(
+                              //   builder: (context) => FutureBuilder(
+                              //     future:
+                              //         Future.wait([studentInit, executionList]),
+                              //     builder: (BuildContext context,
+                              //         AsyncSnapshot<void> snapshot) {
+                              //       if (snapshot.connectionState ==
+                              //           ConnectionState.done) {
+                              //         return const TabView();
+                              //       } else {
+                              //         return const Center(
+                              //             child: CircularProgressIndicator(
+                              //                 backgroundColor: Colors.pink));
+                              //       }
+                              //     },
+                              //   ),
+                              // ),
+                            ),
+                          ),
+                        ),
+                      );
                     })
               ],
             ),

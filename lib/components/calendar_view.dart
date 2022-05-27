@@ -95,7 +95,7 @@ class _CalendarViewState extends State<CalendarView>
   }
 
   void _onVisibleDaysChanged(DateTime? start, DateTime? end, DateTime? focus) {
-    print('VisibleDaysChanged: Start : $start , End : $end , Calendar $focus');
+    // print('VisibleDaysChanged: Start : $start , End : $end , Calendar $focus');
     setState(() {
       startDate = DateTime(start!.year, start.month, start.day);
       endDate = DateTime(end!.year, end.month, end.day, 23, 59, 59);
@@ -131,8 +131,8 @@ class _CalendarViewState extends State<CalendarView>
         endDate = startDate.add(const Duration(days: 7));
       }
 
-      print(
-          "OnPageChanged : start date : $startDate end date : $endDate format : $format focused Day : $_focusedDay");
+      // print(
+      //     "OnPageChanged : start date : $startDate end date : $endDate format : $format focused Day : $_focusedDay");
     });
   }
 
@@ -161,8 +161,8 @@ class _CalendarViewState extends State<CalendarView>
             focusDayInter.year, focusDayInter.month, focusDayInter.day);
         endDate = startDate.add(const Duration(days: 7));
       }
-      print(
-          "OnFormatChanged : start date : $startDate end date : $endDate format : $_format focused Day : $_focusedDay weekday ${_focusedDay.weekday + 1}");
+      // print(
+      //     "OnFormatChanged : start date : $startDate end date : $endDate format : $_format focused Day : $_focusedDay weekday ${_focusedDay.weekday + 1}");
       format = _format;
     });
   }
@@ -396,7 +396,7 @@ class _CalendarViewState extends State<CalendarView>
           )
         : Column(
             children: [
-              const Text('Oh no! You didn\'t practice that day'),
+              const Text('Oh no! You didn\'t practice on that day'),
               Image.asset(
                 'assets/sleeping.png',
                 width: SizeConfig.blockSizeHorizontal! * 50,

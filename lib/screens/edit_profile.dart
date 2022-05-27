@@ -79,6 +79,8 @@ class _EditProfileState extends State<EditProfile> {
     // print('selectedRadio : $selectedRadioRole student.role: ${student.role}');
 
     try {
+      await flutterLocalNotificationsPlugin.cancelAll();
+
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()
