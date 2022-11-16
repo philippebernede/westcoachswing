@@ -148,11 +148,13 @@ class DrillPresentationScreen extends StatelessWidget {
 //                  alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: const EdgeInsets.all(40.0),
-                    child: RaisedButton(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(30.0))),
-                      color: Theme.of(context).colorScheme.secondary,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0))),
+                        primary: Theme.of(context).colorScheme.secondary,
+                      ),
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,

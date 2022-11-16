@@ -8,12 +8,15 @@ class SettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
       elevation: 2.0,
-      color: Colors.white,
+      primary: Colors.white,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
           side: const BorderSide(width: 1.0, color: Colors.teal)),
+    );
+    return ElevatedButton(
+      style: raisedButtonStyle,
       onPressed: function,
       child: Align(
           alignment: Alignment.centerLeft,

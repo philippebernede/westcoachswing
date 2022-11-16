@@ -21,10 +21,6 @@ class SettingsStaticInfo extends StatelessWidget {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const AboutUs()));
         }),
-        SettingsButton('Privacy Policy', () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => PrivacyPolicy()));
-        }),
         SettingsButton('Frequently Asked Questions (FAQ)', () {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => FAQ()));
@@ -48,9 +44,14 @@ class SettingsStaticInfo extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => const TermsAndConditions()));
         }),
-        SettingsButton('Delete Account', () {
-          showDialog(context: context, builder: (_) => const DeleteAccount());
+        SettingsButton('Privacy Policy', () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => PrivacyPolicy()));
         }),
+//TODO: Add the delete account option back
+        // SettingsButton('Delete Account', () {
+        //   showDialog(context: context, builder: (_) => const DeleteAccount());
+        // }),
 //---------------------------------------------------------------------OLD BUTTONS LIST--------------------------------------------------------------------
 //          RaisedButton(
 //            elevation: 2.0,

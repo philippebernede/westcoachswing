@@ -144,12 +144,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
             ),
-            FlatButton.icon(
+            TextButton.icon(
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
                 icon: const Icon(
                   Icons.exit_to_app,
                   color: Colors.red,
                 ),
-                color: Colors.white,
                 onPressed: () async {
                   await signOut();
                   Provider.of<StudentList>(context, listen: false).initialized =

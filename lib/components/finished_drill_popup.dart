@@ -77,6 +77,11 @@ class _FinishedDrillPopupState extends State<FinishedDrillPopup> {
     final workout = Provider.of<Workouts>(context, listen: false);
     final currentStudent =
         Provider.of<StudentList>(context, listen: false).currentStudent;
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.0))),
+      primary: Theme.of(context).colorScheme.secondary,
+    );
 //    int nextDrillId = workout.nextWorkout(context);
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -110,10 +115,8 @@ class _FinishedDrillPopupState extends State<FinishedDrillPopup> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  RaisedButton(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                    color: Theme.of(context).colorScheme.secondary,
+                  ElevatedButton(
+                    style: raisedButtonStyle,
                     onPressed: () async {
                       Navigator.pop(context);
                       Navigator.pushReplacement(
@@ -147,10 +150,8 @@ class _FinishedDrillPopupState extends State<FinishedDrillPopup> {
                             style: TextStyle(color: Colors.white),
                           ),
                   ),
-                  RaisedButton(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                    color: Theme.of(context).colorScheme.secondary,
+                  ElevatedButton(
+                    style: raisedButtonStyle,
                     onPressed: () {
                       if (_nextDrillId == 0) {
                         Navigator.of(context)

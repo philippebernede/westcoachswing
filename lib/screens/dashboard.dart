@@ -48,9 +48,11 @@ class _DashboardState extends State<Dashboard> {
               Column(
                 children: <Widget>[
                   Text(DateFormat('d/MM/y').format(startDate)),
-                  FlatButton(
+                  TextButton(
                     child: const Text('Start Date'),
-                    color: Theme.of(context).colorScheme.secondary,
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
                     onPressed: () async {
                       DateTime? dateValue = await showDatePicker(
                           context: context,
@@ -68,9 +70,11 @@ class _DashboardState extends State<Dashboard> {
               Column(
                 children: <Widget>[
                   Text(DateFormat('d/MM/y').format(endDate)),
-                  FlatButton(
+                  TextButton(
                     child: const Text('End Date'),
-                    color: Theme.of(context).colorScheme.secondary,
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
                     onPressed: () {
                       showDatePicker(
                               context: context,

@@ -124,25 +124,29 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         builder: (_) => AlertDialog(
           content: const Text('Are you ready to send your feedback ?'),
           actions: [
-            FlatButton(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                foregroundColor: Theme.of(context).colorScheme.secondary,
+              ),
               child: const Text('Yes'),
               onPressed: () {
                 Navigator.pop(context);
                 addFeedback();
                 setState(() {});
               },
-              color: Theme.of(context).colorScheme.secondary,
             ),
-            FlatButton(
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                foregroundColor: Theme.of(context).colorScheme.secondary,
+              ),
               child: const Text('No'),
               onPressed: () {
                 Navigator.pop(context);
               },
-              color: Theme.of(context).colorScheme.secondary,
             ),
           ],
         ),
@@ -271,10 +275,15 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         height: 10.0,
                       ),
                       Center(
-                        child: RaisedButton(
-                          shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30.0))),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0))),
+                            foregroundColor:
+                                Theme.of(context).colorScheme.secondary,
+                            onSurface: Theme.of(context).colorScheme.secondary,
+                          ),
                           onPressed: () {
                             _trySubmit();
                           },
@@ -288,9 +297,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                                   height: 1.5),
                             ),
                           ),
-                          color: Theme.of(context).colorScheme.secondary,
-                          disabledColor:
-                              Theme.of(context).colorScheme.secondary,
                         ),
                       ),
                       const SizedBox(

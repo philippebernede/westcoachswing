@@ -13,6 +13,11 @@ class SkipDrillPopup extends StatelessWidget {
   const SkipDrillPopup({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.0))),
+      primary: Theme.of(context).colorScheme.secondary,
+    );
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -35,10 +40,8 @@ class SkipDrillPopup extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  RaisedButton(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                    color: Theme.of(context).colorScheme.secondary,
+                  ElevatedButton(
+                    style: raisedButtonStyle,
                     onPressed: () {
                       final workout =
                           Provider.of<Workouts>(context, listen: false);
@@ -70,10 +73,8 @@ class SkipDrillPopup extends StatelessWidget {
                     child: const Text('Yes',
                         style: TextStyle(color: Colors.white)),
                   ),
-                  RaisedButton(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                    color: Theme.of(context).colorScheme.secondary,
+                  ElevatedButton(
+                    style: raisedButtonStyle,
                     onPressed: () {
                       Navigator.pop(context);
                     },

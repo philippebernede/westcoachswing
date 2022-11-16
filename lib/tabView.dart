@@ -7,6 +7,7 @@ import 'package:westcoachswing/screens/home_page.dart';
 import 'package:westcoachswing/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '/screens/feedback.dart';
 import '/screens/dashboard.dart';
@@ -42,7 +43,7 @@ class _TabViewState extends State<TabView> {
     const DirectoryScreen(),
     FavoritesScreen(),
     const Dashboard(),
-    const FeedbackScreen(),
+//    const FeedbackScreen(),
 //    TODO le test screen sera à supprimer pour la version finale
 //    TestScreen(),
   ];
@@ -117,10 +118,10 @@ class _TabViewState extends State<TabView> {
             icon: Icon(Icons.person),
             label: 'Dashboard',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.comment),
-            label: 'Feedback',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.comment),
+          //   label: 'Feedback',
+          // ),
         ],
       ),
       body: _children[_currentIndex!],

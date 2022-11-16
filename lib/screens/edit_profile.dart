@@ -307,12 +307,12 @@ class _EditProfileState extends State<EditProfile> {
         constraints: BoxConstraints(
           minHeight: SizeConfig.blockSizeVertical! * 100,
         ),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/whiteBrick.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //     image: AssetImage("assets/whiteBrick.jpg"),
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
@@ -490,11 +490,14 @@ class _EditProfileState extends State<EditProfile> {
         const SizedBox(
           height: 5.0,
         ),
-        FlatButton(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    width: 2.0, color: Theme.of(context).colorScheme.secondary),
-                borderRadius: BorderRadius.circular(8.0)),
+        TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      width: 2.0,
+                      color: Theme.of(context).colorScheme.secondary),
+                  borderRadius: BorderRadius.circular(8.0)),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Row(

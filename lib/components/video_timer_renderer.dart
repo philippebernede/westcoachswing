@@ -174,6 +174,11 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
         AnimatedBuilder(
           animation: timerController!,
           builder: (context, child) {
+            final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0))),
+              primary: Theme.of(context).colorScheme.secondary,
+            );
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -193,15 +198,30 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
                   AnimatedBuilder(
                     animation: timerController!,
                     builder: (context, child) {
+                      final ButtonStyle raisedButtonStyle =
+                          ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0)),
+                            side: BorderSide(color: Colors.teal)),
+                        primary: Colors.white,
+                      );
+                      final ButtonStyle raisedButtonIcon =
+                          ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0))),
+                        primary: Theme.of(context).colorScheme.secondary,
+                        onPrimary: Theme.of(context).colorScheme.secondary,
+                      );
+                      //// disabledColor Theme.of(context).colorScheme.secondary,);
 //                      controller.isDismissed ? _showDialog() : Text('');
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          RaisedButton.icon(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(30.0))),
+                          ElevatedButton.icon(
+                            style: raisedButtonIcon,
                             onPressed: () {
                               if (timerController!.isAnimating) {
                                 setState(() {
@@ -237,9 +257,6 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
                                     height: 1.5),
                               ),
                             ),
-                            color: Theme.of(context).colorScheme.secondary,
-                            disabledColor:
-                                Theme.of(context).colorScheme.secondary,
                           ),
                           const SizedBox(
                             width: 5.0,
@@ -297,11 +314,11 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
                   ),
                   const Text(
                     'Not sure about what to do ?',
-                    style: kActionButtonTextStyle,
+                    style: kActionTextStyle,
                   ),
                   const Text(
                     'Simply check out the full drill breakdown just below',
-                    style: kActionButtonTextStyle,
+                    style: kActionTextStyle,
                   ),
                   const SizedBox(
                     height: 10,
@@ -311,11 +328,8 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
                     onPressed: null,
                     icon: Icon(Icons.keyboard_arrow_down, color: Colors.teal),
                   ),
-                  RaisedButton(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                        side: BorderSide(color: Colors.teal)),
-                    color: Colors.white,
+                  ElevatedButton(
+                    style: raisedButtonStyle,
                     // color: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
                       setState(() {
@@ -338,7 +352,7 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
                     },
                     child: const Text(
                       "Full drill breakdown HERE",
-                      style: TextStyle(color: Colors.teal),
+                      style: TextStyle(color: Colors.white),
                       // style: kActionButtonTextStyle,
                     ),
                   ),

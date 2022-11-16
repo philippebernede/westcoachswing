@@ -1,5 +1,5 @@
 //import 'dart:html';
-
+import '/utilities/size_config.dart';
 import '/components/drill_list_listtile.dart';
 import '/components/video_timer_renderer.dart';
 import '/components/workouts.dart';
@@ -53,6 +53,9 @@ class DrillScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: Container(
+          constraints: BoxConstraints(
+            minHeight: SizeConfig.blockSizeVertical! * 100,
+          ),
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/whiteBrick.jpg"),

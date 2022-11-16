@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -19,6 +20,7 @@ import 'package:westcoachswing/objects/drill_filters.dart';
 import 'package:westcoachswing/components/workouts.dart';
 import 'package:westcoachswing/objects/execution_list.dart';
 import 'package:westcoachswing/components/received_notification.dart';
+import 'utilities/store_config.dart';
 
 //------------------------------------------LOCAL NOTIFICATION SETUP------------------------------------------
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -65,6 +67,19 @@ Future<void> main() async {
   } else {
     isConnected = false;
   }
+
+  //-----------------------RevenueCat initialisation-----------------------
+  // if (Platform.isIOS || Platform.isMacOS) {
+  //   StoreConfig(
+  //     store: Store.appleStore,
+  //     apiKey: appleApiKey,
+  //   );
+  // } else if (Platform.isAndroid) {
+  //   StoreConfig(
+  //     store: Store.googlePlay,
+  //     apiKey: googleApiKey,
+  //   );
+  // }
 
   //--------------------------START local Notification initialisation NEW-------------------------------------
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

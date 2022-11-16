@@ -36,11 +36,40 @@ class _VimeoTestState extends State<VimeoTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: VimeoPlayer(
-          videoId: widget.videoID,
+        child: Stack(
+          fit: StackFit.expand,
+          alignment: Alignment.center,
+          children: <Widget>[
+            VimeoPlayer(
+              videoId: widget.videoID,
+            ),
+            if (widget.fullscreen == true)
+              Positioned(
+                left: 20.0,
+                top: 20.0,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                  onPressed: () {
+//    TODO fixing video placement when screen pops
+                    SystemChrome.setPreferredOrientations(
+                      [
+                        DeviceOrientation.portraitUp,
+                        DeviceOrientation.portraitDown
+                      ],
+                    );
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+          ],
         ),
+        // This trailing comma makes auto-formatting nicer for build methods.
       ),
-      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  _VimeoTestState();
 }

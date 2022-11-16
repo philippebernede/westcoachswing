@@ -142,7 +142,7 @@ class _FullScreenVideoPlayerScreenState
           fit: StackFit.expand,
           alignment: Alignment.center,
           children: <Widget>[
-            FlatButton(
+            TextButton(
               onPressed: () {
                 setState(() {
                   isTapped = !isTapped;

@@ -346,7 +346,7 @@ class _MoreInfoState extends State<MoreInfo> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                RaisedButton(
+                ElevatedButton(
                     child: const Text('Save & Continue to Next Step'),
                     onPressed: () {
 //    vérifie que l'on a bien sélectionné un rôle pour l'application
@@ -356,7 +356,7 @@ class _MoreInfoState extends State<MoreInfo> {
                           builder: (context) => AlertDialog(
                             content: const Text('Please select a Role'),
                             actions: <Widget>[
-                              FlatButton(
+                              TextButton(
                                 child: const Text('OK'),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -447,11 +447,14 @@ class _MoreInfoState extends State<MoreInfo> {
           height: 5.0,
         ),
         //---------------------------------------------------------BEGINNING OF NEW LAYOUT FOR TIME ------------------------------------------------------------------------------------
-        FlatButton(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    width: 2.0, color: Theme.of(context).colorScheme.secondary),
-                borderRadius: BorderRadius.circular(8.0)),
+        TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                      width: 2.0,
+                      color: Theme.of(context).colorScheme.secondary),
+                  borderRadius: BorderRadius.circular(8.0)),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Row(

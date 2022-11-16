@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:westcoachswing/utilities/constants.dart';
 
 import '/components/workouts.dart';
+import 'package:westcoachswing/objects/drill.dart';
 import '/objects/drill_list.dart';
 import '/screens/drill_presentation_screen.dart';
+import '/screens/drill_screen.dart';
 import '/utilities/size_config.dart';
 
 class ExoListVideoView extends StatelessWidget {
@@ -15,6 +18,8 @@ class ExoListVideoView extends StatelessWidget {
     final workout = Provider.of<Workouts>(context);
     final drillList = Provider.of<DrillList>(context);
     final workoutDurations = workout.getWorkoutDurations(drillList);
+    List<Drill> workoutDrills = [];
+
 //   TODO fixing problem of name called on null when we call this function at the start of the app
 // TODO on pourrait changer les noms des pratiques si on veut mais pas obligé
     final List<String> nameList = [
@@ -134,6 +139,54 @@ class ExoListVideoView extends StatelessWidget {
                                   Text(
                                     '~${workoutDurations[index]} min',
                                     style: const TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: 10.0,
+                          right: 25.0,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                                side: const BorderSide(
+                                    width: 1.0, color: Colors.teal),
+                              ),
+                              backgroundColor: Colors.white,
+                            ),
+                            onPressed: () {
+                              workout.selectedWorkout(index, context);
+                              //    TODO ajouter ceci lorsqu'on voudra ajouter la liste des autres drills à venir
+                              if (workout.workouts[index] != null) {
+                                workoutDrills = workout.workouts[index]!
+                                    .map((e) => drillList.drillById(e))
+                                    .toList();
+                              }
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+//                            CountDownTransitionScreen(drill),
+
+                                      DrillScreen(drillList
+                                          .drillById(
+                                              workout.workouts[index]![0])
+                                          .id!),
+                                ),
+                              );
+//                      SingleDrillBottomSheet();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const <Widget>[
+                                  Text(
+                                    "Start now",
+                                    style: TextStyle(color: Colors.teal),
                                   ),
                                 ],
                               ),

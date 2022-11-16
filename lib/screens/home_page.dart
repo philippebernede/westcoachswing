@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          ExoListVideoView(),
+          const ExoListVideoView(),
 //          Container(
 //            height: SizeConfig.blockSizeVertical * 65,
 //            width: SizeConfig.blockSizeHorizontal * 80,
@@ -248,6 +248,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Dialog coupleDialog(BuildContext context) {
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30.0))),
+      primary: Theme.of(context).colorScheme.secondary,
+    );
     final workout = Provider.of<Workouts>(context, listen: false);
     Map<int, List<int>> workoutChecker;
     return Dialog(
@@ -273,10 +278,8 @@ class _HomePageState extends State<HomePage> {
               spacing: 5.0,
 //              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                RaisedButton(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                  color: Theme.of(context).colorScheme.secondary,
+                ElevatedButton(
+                  style: raisedButtonStyle,
                   onPressed: () {
                     workout.todaysCoupleWorkout(context, 'technique');
                     setState(() {});
@@ -285,10 +288,8 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('Technique',
                       style: TextStyle(color: Colors.white)),
                 ),
-                RaisedButton(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                  color: Theme.of(context).colorScheme.secondary,
+                ElevatedButton(
+                  style: raisedButtonStyle,
                   onPressed: () {
                     workout.todaysCoupleWorkout(context, 'musicality');
                     setState(() {});
@@ -297,10 +298,8 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('Musicality',
                       style: TextStyle(color: Colors.white)),
                 ),
-                RaisedButton(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                  color: Theme.of(context).colorScheme.secondary,
+                ElevatedButton(
+                  style: raisedButtonStyle,
                   onPressed: () {
                     workoutChecker =
                         workout.todaysCoupleWorkout(context, 'styling');
@@ -322,10 +321,8 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('Styling',
                       style: TextStyle(color: Colors.white)),
                 ),
-                RaisedButton(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                  color: Theme.of(context).colorScheme.secondary,
+                ElevatedButton(
+                  style: raisedButtonStyle,
                   onPressed: () {
                     workout.todaysCoupleWorkout(context, 'partneringSkill');
                     setState(() {});
@@ -334,10 +331,8 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('Partnering Skills',
                       style: TextStyle(color: Colors.white)),
                 ),
-                RaisedButton(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                  color: Theme.of(context).colorScheme.secondary,
+                ElevatedButton(
+                  style: raisedButtonStyle,
                   onPressed: () {
                     workout.todaysCoupleWorkout(context, 'personalSkill');
                     setState(() {});
@@ -346,10 +341,8 @@ class _HomePageState extends State<HomePage> {
                   child: const Text('Personal Skills',
                       style: TextStyle(color: Colors.white)),
                 ),
-                RaisedButton(
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                  color: Theme.of(context).colorScheme.secondary,
+                ElevatedButton(
+                  style: raisedButtonStyle,
                   onPressed: () {
                     workout.todaysCoupleWorkout(context, 'random');
                     setState(() {});
