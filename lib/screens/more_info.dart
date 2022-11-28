@@ -285,13 +285,13 @@ class _MoreInfoState extends State<MoreInfo> {
         centerTitle: true,
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/whiteBrick.jpg"),
-            fit: BoxFit.cover,
-            repeat: ImageRepeat.repeat,
-          ),
-        ),
+        // decoration: const BoxDecoration(
+        //   image: DecorationImage(
+        //     image: AssetImage("assets/whiteBrick.jpg"),
+        //     fit: BoxFit.cover,
+        //     repeat: ImageRepeat.repeat,
+        //   ),
+        // ),
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(8.0),

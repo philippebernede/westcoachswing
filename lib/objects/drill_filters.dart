@@ -86,6 +86,11 @@ class DrillFilters with ChangeNotifier {
     L3 = false;
     L4 = false;
     L5 = false;
+    technique = false;
+    styling = false;
+    musicality = false;
+    personalSkill = false;
+    partneringSkill = false;
     notifyListeners();
   }
 
@@ -99,6 +104,11 @@ class DrillFilters with ChangeNotifier {
     L3 = filters.L3;
     L4 = filters.L4;
     L5 = filters.L5;
+    technique = filters.technique;
+    styling = filters.styling;
+    musicality = filters.musicality;
+    personalSkill = filters.personalSkill;
+    partneringSkill = filters.partneringSkill;
     notifyListeners();
   }
 }

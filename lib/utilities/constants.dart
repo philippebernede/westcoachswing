@@ -178,7 +178,7 @@ final DateTime kLastDay = DateTime(kToday.year, kToday.month + 1, 1);
 const entitlementID = 'Regular';
 
 //TO DO: add your subscription terms and conditions
-const footerText = """Cancel any time on the App Store.""";
+const footerText = """Auto-renewable. Cancel anytime.""";
 
 //TO DO: add the Apple API key for your app from the RevenueCat dashboard: https://app.revenuecat.com
 const appleApiKey = 'appl_jqkcQKikPEuNTlZrERvSWMZOWHr';

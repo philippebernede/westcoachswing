@@ -29,34 +29,32 @@ class _FilterButtonState extends State<FilterButton> {
   @override
   Widget build(BuildContext context) {
     isActives ??= widget.isActive;
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: MaterialButton(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(22.0),
-              side: const BorderSide(color: Colors.teal)),
-          child: FittedBox(
-              child: Text(
-            widget.filterText,
-            style: TextStyle(color: isActives! ? Colors.white : Colors.teal),
-          )),
-          elevation: 10.0,
-          color: setColor(isActives!),
-          onPressed: () {
-            setState(() {
-              if (isActives == true) {
-                isActives = false;
-                widget.updateValue(isActives);
-              } else {
-                isActives = true;
-                widget.updateValue(isActives);
-              }
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: MaterialButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(22.0),
+            side: const BorderSide(color: Colors.teal)),
+        child: FittedBox(
+            child: Text(
+          widget.filterText,
+          style: TextStyle(color: isActives! ? Colors.white : Colors.teal),
+        )),
+        elevation: 10.0,
+        color: setColor(isActives!),
+        onPressed: () {
+          setState(() {
+            if (isActives == true) {
+              isActives = false;
+              widget.updateValue(isActives);
+            } else {
+              isActives = true;
+              widget.updateValue(isActives);
+            }
 
 //              buttonColor(widget.isActive);
-            });
-          },
-        ),
+          });
+        },
       ),
     );
   }

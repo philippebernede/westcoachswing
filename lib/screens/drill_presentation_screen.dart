@@ -183,6 +183,7 @@ class DrillPresentationScreen extends StatelessWidget {
               ...workoutDrills
                   .map((e) => DrillListTile(
                         drill: e,
+                        hasImage: false,
                       ))
                   .toList(),
           ],

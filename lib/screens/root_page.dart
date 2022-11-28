@@ -42,8 +42,8 @@ class _RootPageState extends State<RootPage> {
   }
 
   void performMagic() async {
-    // CustomerInfo customerInfo = await Purchases.getCustomerInfo();
-    //
+    CustomerInfo customerInfo = await Purchases.getCustomerInfo();
+
     // if (customerInfo.entitlements.all[entitlementID] != null &&
     //     customerInfo.entitlements.all[entitlementID].isActive == true) {
     //   appData.currentData = WeatherData.generateData();
@@ -68,7 +68,7 @@ class _RootPageState extends State<RootPage> {
       // current offering is available, show paywall
       await showModalBottomSheet(
         useRootNavigator: true,
-        isDismissible: true,
+        isDismissible: false, //todo: change to false once testing is done
         isScrollControlled: true,
         backgroundColor: kColorBackground,
         shape: const RoundedRectangleBorder(
@@ -137,7 +137,7 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     switch (_authStatus) {
       case AuthStatus.notSignedIn:
-        return AuthenticationScreen();
+        return const AuthenticationScreen();
 
       case AuthStatus.signedIn:
         Future<void> executionList =
@@ -162,10 +162,10 @@ class _RootPageState extends State<RootPage> {
             builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (appData.entitlementIsActive) {
-                  return TabView();
+                  return const TabView();
                 } else {
                   performMagic();
-                  return TabView();
+                  return const TabView();
                 } // sinon renvoyer vers le paywall
               } else {
                 return Scaffold(

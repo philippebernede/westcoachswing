@@ -8,6 +8,7 @@ import '/objects/drill_list.dart';
 import '/screens/drill_presentation_screen.dart';
 import '/screens/drill_screen.dart';
 import '/utilities/size_config.dart';
+import 'drill_list_listtile.dart';
 
 class ExoListVideoView extends StatelessWidget {
   const ExoListVideoView({Key? key}) : super(key: key);
@@ -116,6 +117,24 @@ class ExoListVideoView extends StatelessWidget {
                           ),
                         ),
                         Positioned(
+                          top: SizeConfig.blockSizeVertical! * 8,
+                          left: SizeConfig.blockSizeHorizontal! * 3,
+                          child: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30.0),
+                              color: Colors.white.withOpacity(0.8),
+                            ),
+                            width: SizeConfig.blockSizeHorizontal! * 74,
+                            child: Text(
+                              nameList[index],
+                              style: Theme.of(context).textTheme.headline6,
+                              softWrap: true,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                        Positioned(
                           bottom: 10.0,
                           left: 25.0,
                           child: Container(
@@ -130,12 +149,12 @@ class ExoListVideoView extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                    nameList[index],
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
+                                  // Text(
+                                  //   nameList[index],
+                                  //   style: const TextStyle(color: Colors.white),
+                                  // ),
                                   Text(
                                     '~${workoutDurations[index]} min',
                                     style: const TextStyle(color: Colors.white),
@@ -193,6 +212,28 @@ class ExoListVideoView extends StatelessWidget {
                             ),
                           ),
                         ),
+                        if (workout.workouts[index] != null)
+                          Positioned(
+                              bottom: SizeConfig.blockSizeVertical! * 8,
+                              child: SizedBox(
+                                width: SizeConfig.blockSizeHorizontal! * 80,
+                                height: SizeConfig.blockSizeVertical! * 35,
+                                child: SingleChildScrollView(
+                                  reverse: true,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: workout.workouts[index]!
+                                        .map((e) => drillList.drillById(e))
+                                        .toList()
+                                        .map((e) => DrillListTile(
+                                              drill: e,
+                                              hasImage: false,
+                                            ))
+                                        .toList(),
+                                  ),
+                                ),
+                              )),
                       ],
                     ),
                   ),

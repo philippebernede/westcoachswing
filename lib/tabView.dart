@@ -4,6 +4,7 @@
 import 'package:westcoachswing/objects/favorites.dart';
 import 'package:westcoachswing/screens/directory_screen.dart';
 import 'package:westcoachswing/screens/home_page.dart';
+import 'package:westcoachswing/screens/search_screen.dart';
 import 'package:westcoachswing/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ import '/screens/feedback.dart';
 import '/screens/dashboard.dart';
 import 'screens/favorites_screen.dart';
 import '/utilities/constants.dart';
+import 'screens/search_filter.dart';
 
 class TabView extends StatefulWidget {
 //  static String studentID = StudentList().students[1].id;
@@ -40,7 +42,8 @@ class _TabViewState extends State<TabView> {
 //  Liste des différents Screen de l'application qui apparaissent dans le menu en bas
   final List<Widget> _children = [
     const HomePage(),
-    const DirectoryScreen(),
+    const SearchScreen('ALL COLLECTIONS'),
+    // const DirectoryScreen(),
     FavoritesScreen(),
     const Dashboard(),
 //    const FeedbackScreen(),
@@ -91,39 +94,92 @@ class _TabViewState extends State<TabView> {
 //        backgroundColor: Colors.white,
       ),
 //      La barre de menu du bas
-      bottomNavigationBar: BottomNavigationBar(
+      floatingActionButtonLocation:
+          FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: _currentIndex == 1
+          ? FloatingActionButton(
+              child: const Icon(Icons.filter_list),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const SearchFilter(),
+                  ),
+                );
+              },
+            )
+          : Container(),
+      bottomNavigationBar: _currentIndex == 1
+          ? BottomAppBar(
+              shape: const CircularNotchedRectangle(),
+              elevation: 0,
+              child: BottomNavigationBar(
+                backgroundColor: Colors.transparent,
+                onTap: onTabTapped,
+                currentIndex: _currentIndex!,
+                showSelectedLabels: true,
+                showUnselectedLabels: false,
+                type: BottomNavigationBarType.fixed,
+                selectedItemColor: Theme.of(context).colorScheme.secondary,
+                elevation: 0,
+                iconSize: 32,
+                items: const <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.search),
+                    label: 'Search',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite_border),
+                    label: 'Favorites',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: 'Dashboard',
+                  ),
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(Icons.comment),
+                  //   label: 'Feedback',
+                  // ),
+                ],
+              ),
+            )
+          : BottomNavigationBar(
 //        backgroundColor: Colors.transparent,
-        onTap: onTabTapped,
-        currentIndex: _currentIndex!,
-        showSelectedLabels: true,
-        showUnselectedLabels: false,
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: Theme.of(context).colorScheme.secondary,
-        elevation: 0,
-        iconSize: 32,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Dashboard',
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.comment),
-          //   label: 'Feedback',
-          // ),
-        ],
-      ),
+              onTap: onTabTapped,
+              currentIndex: _currentIndex!,
+              showSelectedLabels: true,
+              showUnselectedLabels: false,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: Theme.of(context).colorScheme.secondary,
+              elevation: 0,
+              iconSize: 32,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  label: 'Search',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite_border),
+                  label: 'Favorites',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Dashboard',
+                ),
+                // BottomNavigationBarItem(
+                //   icon: Icon(Icons.comment),
+                //   label: 'Feedback',
+                // ),
+              ],
+            ),
       body: _children[_currentIndex!],
     );
   }

@@ -16,6 +16,7 @@ class DrillList with ChangeNotifier {
 //  }
   Drill selectedDrill = Drill();
   List<Drill> _drills = [];
+  bool drillInit = false;
 
   Future<void> initDrills() async {
 //---------------------------------------------------------------------Partie pour ajouter de nouveaux drills--------------------------------------------------------------
@@ -44,39 +45,42 @@ class DrillList with ChangeNotifier {
 //     );
 
 //    Drill drill = Drill();
-    _drills =
-        []; // on s'assure que la liste des drills est vide au moment de l'initialisation pour ne pas l'afficher en double. Changement fait suite à un bug
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('drill').get();
-    querySnapshot.docs.forEach((element) {
-      Drill drill = Drill();
-      drill.name = element['name'];
-      drill.duration = element['duration'];
-      drill.imageLink = element['imageLink'];
-      drill.level = convertToLevel(element['level']);
-      drill.musicality = element['musicality'];
-      drill.partner = convertToPartner(element['partner']);
-      drill.partneringSkill = element['partneringSkill'];
-      drill.personalSkill = element['personalSkill'];
-      drill.role = convertToRole(element['role']);
-      drill.shortVideoURL = element['shortVideoURL'];
-      drill.styling = element['styling'];
-      drill.technique = element['technique'];
-      drill.videoURL = element['videoURL'];
-      drill.id = int.parse(element.id);
-      drill.skills = {
-        'technique': element['technique'],
-        'styling': element['styling'],
-        'personalSkill': element['personalSkill'],
-        'partneringSkill': element['partneringSkill'],
-        'musicality': element['musicality']
-      };
-      _drills.add(drill);
-    });
+    if (!drillInit) {
+      _drills =
+          []; // on s'assure que la liste des drills est vide au moment de l'initialisation pour ne pas l'afficher en double. Changement fait suite à un bug
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection('drill').get();
+      querySnapshot.docs.forEach((element) {
+        Drill drill = Drill();
+        drill.name = element['name'];
+        drill.duration = element['duration'];
+        drill.imageLink = element['imageLink'];
+        drill.level = convertToLevel(element['level']);
+        drill.musicality = element['musicality'];
+        drill.partner = convertToPartner(element['partner']);
+        drill.partneringSkill = element['partneringSkill'];
+        drill.personalSkill = element['personalSkill'];
+        drill.role = convertToRole(element['role']);
+        drill.shortVideoURL = element['shortVideoURL'];
+        drill.styling = element['styling'];
+        drill.technique = element['technique'];
+        drill.videoURL = element['videoURL'];
+        drill.id = int.parse(element.id);
+        drill.skills = {
+          'technique': element['technique'],
+          'styling': element['styling'],
+          'personalSkill': element['personalSkill'],
+          'partneringSkill': element['partneringSkill'],
+          'musicality': element['musicality']
+        };
+        _drills.add(drill);
+      });
 
-    _drills.sort((a, b) => a.name!.compareTo(b.name!));
+      _drills.sort((a, b) => a.name!.compareTo(b.name!));
+      drillInit = true;
+      notifyListeners();
+    }
 
-    notifyListeners();
 //    return _drills;
   }
 
@@ -207,61 +211,141 @@ class DrillList with ChangeNotifier {
         _filterList.L2 ||
         _filterList.L3 ||
         _filterList.L4 ||
-        _filterList.L5;
+        _filterList.L5 ||
+        _filterList.technique ||
+        _filterList.partneringSkill ||
+        _filterList.personalSkill ||
+        _filterList.styling ||
+        _filterList.musicality;
+  }
+
+//  récupère le nombre de drill filtré
+  int nbFilteredDrills(DrillFilters? filterList) {
+    int i = _drills.length;
+    i = drillsByFilter('ALL COLLECTIONS', filterList).length;
+    return i;
   }
 
 //  création d'une nouvelle liste de drill en fonctions des filtres établis.
-  List<Drill> drillsByFilter(String collect, DrillFilters? filterList,
+  List<Drill> drillsByFilter(String? collect, DrillFilters? filterList,
       [String? filterName]) {
     List<Drill> filteredDrills = _drills;
 
-//    analyse de la collection
-    switch (collect) {
-      case 'Personal Skills':
-        {
-          filteredDrills = filteredDrills.where((drill) {
-            return !drill.personalSkill! ? false : true;
-          }).toList();
-        }
-        break;
-      case 'Musicality':
-        {
-          filteredDrills = filteredDrills.where((drill) {
-            return !drill.musicality! ? false : true;
-          }).toList();
-        }
-        break;
-      case 'Partnering Skills':
-        {
-          filteredDrills = filteredDrills.where((drill) {
-            return !drill.partneringSkill! ? false : true;
-          }).toList();
-        }
-        break;
-      case 'Technique':
-        {
-          filteredDrills = filteredDrills.where((drill) {
-            return !drill.technique! ? false : true;
-          }).toList();
-        }
-        break;
-      case 'Styling':
-        {
-          filteredDrills = filteredDrills.where((drill) {
-            return !drill.styling! ? false : true;
-          }).toList();
-        }
-        break;
-      default:
-        {
-          filteredDrills = _drills;
-//          filteredDrills.sort((a, b) => a.name.compareTo(b.name));
-        }
-        break;
+//   analyse de la collection
+    if (filterList != null && filterList.personalSkill) {
+      filteredDrills = filteredDrills.where((drill) {
+        return !drill.personalSkill! ? false : true;
+      }).toList();
+    } else if (filterList != null && filterList.musicality) {
+      filteredDrills = filteredDrills.where((drill) {
+        return !drill.musicality! ? false : true;
+      }).toList();
+    } else if (filterList != null && filterList.partneringSkill) {
+      filteredDrills = filteredDrills.where((drill) {
+        return !drill.partneringSkill! ? false : true;
+      }).toList();
+    } else if (filterList != null && filterList.technique) {
+      filteredDrills = filteredDrills.where((drill) {
+        return !drill.technique! ? false : true;
+      }).toList();
+    } else if (filterList != null && filterList.styling) {
+      filteredDrills = filteredDrills.where((drill) {
+        return !drill.styling! ? false : true;
+      }).toList();
     }
+//    else
+//         {
+//           filteredDrills = _drills;
+// //          filteredDrills.sort((a, b) => a.name.compareTo(b.name));
+//         }
+
+//     switch (collect) {
+//       case 'Personal Skills':
+//         {
+//           filteredDrills = filteredDrills.where((drill) {
+//             return !drill.personalSkill! ? false : true;
+//           }).toList();
+//         }
+//         break;
+//       case 'Musicality':
+//         {
+//           filteredDrills = filteredDrills.where((drill) {
+//             return !drill.musicality! ? false : true;
+//           }).toList();
+//         }
+//         break;
+//       case 'Partnering Skills':
+//         {
+//           filteredDrills = filteredDrills.where((drill) {
+//             return !drill.partneringSkill! ? false : true;
+//           }).toList();
+//         }
+//         break;
+//       case 'Technique':
+//         {
+//           filteredDrills = filteredDrills.where((drill) {
+//             return !drill.technique! ? false : true;
+//           }).toList();
+//         }
+//         break;
+//       case 'Styling':
+//         {
+//           filteredDrills = filteredDrills.where((drill) {
+//             return !drill.styling! ? false : true;
+//           }).toList();
+//         }
+//         break;
+//       default:
+//         {
+//           filteredDrills = _drills;
+// //          filteredDrills.sort((a, b) => a.name.compareTo(b.name));
+//         }
+//         break;
+//     }
 
 //    si un filtre a été fourni dans ce cas on analyse le filtre sinon on n'y va pas
     if (filterList != null) {
+      //   analyse de la collection
+      if (filterList.personalSkill) {
+        filteredDrills = filteredDrills.where((drill) {
+          return !drill.personalSkill! ? false : true;
+        }).toList();
+      } else if (filterList.musicality) {
+        filteredDrills = filteredDrills.where((drill) {
+          return !drill.musicality! ? false : true;
+        }).toList();
+      } else if (filterList.partneringSkill) {
+        filteredDrills = filteredDrills.where((drill) {
+          return !drill.partneringSkill! ? false : true;
+        }).toList();
+      } else if (filterList.technique) {
+        filteredDrills = filteredDrills.where((drill) {
+          return !drill.technique! ? false : true;
+        }).toList();
+      } else if (filterList.styling) {
+        filteredDrills = filteredDrills.where((drill) {
+          return !drill.styling! ? false : true;
+        }).toList();
+      }
+
+//       if (filterList.partneringSkill ||
+//           filterList.personalSkill ||
+//           filterList.musicality ||
+//           filterList.styling ||
+//           filterList.technique) {
+//         filteredDrills = filteredDrills.where((element) {
+//           if ((element.technique == filterList.technique) ||
+//               (element.partneringSkill == filterList.partneringSkill) ||
+//               (element.personalSkill == filterList.personalSkill) ||
+//               (element.musicality == filterList.musicality) ||
+//               (element.styling == filterList.styling)) {
+//             return true;
+//           } else {
+//             return false;
+//           }
+//         }).toList();
+//       }
+
       if (filterList.leader || filterList.follower) {
         filteredDrills = filteredDrills.where((element) {
           if ((element.role == Role.Leader && filterList.leader) ||

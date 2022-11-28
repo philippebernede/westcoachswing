@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:westcoachswing/utilities/constants.dart';
 import 'package:westcoachswing/utilities/singletons_data.dart';
+import 'package:westcoachswing/utilities/size_config.dart';
 
 class Paywall extends StatefulWidget {
   final Offering? offering;
@@ -18,6 +19,8 @@ class _PaywallState extends State<Paywall> {
     return SingleChildScrollView(
       child: SafeArea(
         child: Container(
+          alignment: Alignment.center,
+          height: SizeConfig.blockSizeVertical! * 100,
           decoration: const BoxDecoration(
             color: kColorBar,
           ),
@@ -34,13 +37,30 @@ class _PaywallState extends State<Paywall> {
                     child:
                         Text('✨ West Coach Swing App', style: kTitleTextStyle)),
               ),
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                     top: 32, bottom: 16, left: 16.0, right: 16.0),
                 child: SizedBox(
-                  child: Text(
-                    'Subscriptions',
-                    style: kDescriptionTextStyle,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Choose your offer',
+                      style: kDescriptionTextStyle,
+                    ),
+                  ),
+                  width: double.infinity,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 32, bottom: 16, left: 16.0, right: 16.0),
+                child: SizedBox(
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const Text(
+                      '7 days FREE trial and then',
+                      style: kDescriptionTextStyle,
+                    ),
                   ),
                   width: double.infinity,
                 ),
@@ -86,11 +106,12 @@ class _PaywallState extends State<Paywall> {
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
               ),
-              const Padding(
-                padding: EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                     top: 32, bottom: 16, left: 16.0, right: 16.0),
-                child: SizedBox(
-                  child: Text(
+                child: Container(
+                  alignment: Alignment.center,
+                  child: const Text(
                     footerText,
                     style: kDescriptionTextStyle,
                   ),
