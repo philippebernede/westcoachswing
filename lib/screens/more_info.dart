@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:westcoachswing/screens/full_screen_video_player.dart';
 import 'package:westcoachswing/utilities/constants.dart';
 import '/components/received_notification.dart';
 import '/objects/drill.dart';
 import '/objects/execution_list.dart';
 import '/objects/student_list.dart';
+import 'package:westcoachswing/vimeo_test.dart';
 import '/tabView.dart';
 import '/components/workouts.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,7 +42,7 @@ class _MoreInfoState extends State<MoreInfo> {
   int? selectedRadio;
   int? selectedRadioLevel;
   bool reminderIsOn = true;
-  List<bool> _selectedDays = List.generate(7, (_) => false);
+  final List<bool> _selectedDays = List.generate(7, (_) => false);
   late TimeOfDay time;
   bool isChanged = false;
   String? stringHour;
@@ -333,7 +335,7 @@ class _MoreInfoState extends State<MoreInfo> {
                 ListTile(
                   contentPadding: const EdgeInsets.all(0.0),
                   title: const Text('Enable Practice Reminders'),
-                  trailing: Switch(
+                  trailing: PlatformSwitch(
                       value: reminderIsOn,
                       onChanged: (_) {
                         isChanged = true;
@@ -346,90 +348,95 @@ class _MoreInfoState extends State<MoreInfo> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                ElevatedButton(
-                    child: const Text('Save & Continue to Next Step'),
-                    onPressed: () {
+                Container(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                      child: const Text('Save & Continue to Next Step'),
+                      onPressed: () {
 //    vérifie que l'on a bien sélectionné un rôle pour l'application
-                      if (selectedRadio == null) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            content: const Text('Please select a Role'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text('OK'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              )
-                            ],
-                          ),
-                        );
-                        return;
-                      }
+                        if (selectedRadio == null) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => PlatformAlertDialog(
+                              content: const Text('Please select a Role'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                          return;
+                        }
 //   vérifie que l'on a bien sélectionné un niveau pour l'application
-                      if (selectedRadioLevel == null) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            content: const Text('Please select your Level'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text('OK'),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              )
-                            ],
-                          ),
-                        );
-                        return;
-                      }
+                        if (selectedRadioLevel == null) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => PlatformAlertDialog(
+                              content: const Text('Please select your Level'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            ),
+                          );
+                          return;
+                        }
 
-                      saveInfo(studentList);
-                      //TODO petite ligne à remettre en uncomment
-                      _setWeeklyAtDayAndTimeNotification(
-                          time, _selectedDays, context);
-                      Future<void> studentInit = studentList
-                          .initStudent(context)
-                          .then((_) =>
-                              Provider.of<Workouts>(context, listen: false)
-                                  .todaysWorkout2(context, true));
-                      Future<void> executionList =
-                          Provider.of<ExecutionList>(context, listen: false)
-                              .getStudentsExecutions();
-                      Future.wait([studentInit, executionList]).then(
-                        (value) => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-//                            CountDownTransitionScreen(drill),
-                                const FullScreenVideoPlayerScreen(
-                              autoPlay: true,
-                              videoURL:
-                                  "https://www.googleapis.com/drive/v3/files/1GoMIV8MwkO7OFv2B9TKTS0klQowEwgft?alt=media&key=AIzaSyA0Tl505CBLuuK2goq6rGKCatWwkd_uSQM",
-                              // nextPage: MaterialPageRoute(
-                              //   builder: (context) => FutureBuilder(
-                              //     future:
-                              //         Future.wait([studentInit, executionList]),
-                              //     builder: (BuildContext context,
-                              //         AsyncSnapshot<void> snapshot) {
-                              //       if (snapshot.connectionState ==
-                              //           ConnectionState.done) {
-                              //         return const TabView();
-                              //       } else {
-                              //         return const Center(
-                              //             child: CircularProgressIndicator(
-                              //                 backgroundColor: Colors.pink));
-                              //       }
-                              //     },
-                              //   ),
+                        saveInfo(studentList);
+                        //TODO petite ligne à remettre en uncomment
+                        _setWeeklyAtDayAndTimeNotification(
+                            time, _selectedDays, context);
+                        Future<void> studentInit = studentList
+                            .initStudent(context)
+                            .then((_) =>
+                                Provider.of<Workouts>(context, listen: false)
+                                    .todaysWorkout2(context, true));
+                        Future<void> executionList =
+                            Provider.of<ExecutionList>(context, listen: false)
+                                .getStudentsExecutions();
+                        Future.wait([studentInit, executionList]).then(
+                          (value) => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+//                            CountDownTransitionScreen(drill),779127082?a4d7293d5d
+                                  VimeoTest(
+                                      fullscreen: false, videoID: '779127082'),
+                              // const FullScreenVideoPlayerScreen(
+                              //   autoPlay: true,
+                              //   videoURL:
+                              //       "https://www.googleapis.com/drive/v3/files/1GoMIV8MwkO7OFv2B9TKTS0klQowEwgft?alt=media&key=AIzaSyA0Tl505CBLuuK2goq6rGKCatWwkd_uSQM",
+                              //   // nextPage: MaterialPageRoute(
+                              //   //   builder: (context) => FutureBuilder(
+                              //   //     future:
+                              //   //         Future.wait([studentInit, executionList]),
+                              //   //     builder: (BuildContext context,
+                              //   //         AsyncSnapshot<void> snapshot) {
+                              //   //       if (snapshot.connectionState ==
+                              //   //           ConnectionState.done) {
+                              //   //         return const TabView();
+                              //   //       } else {
+                              //   //         return const Center(
+                              //   //             child: CircularProgressIndicator(
+                              //   //                 backgroundColor: Colors.pink));
+                              //   //       }
+                              //   //     },
+                              //   //   ),
+                              //   // ),
                               // ),
                             ),
                           ),
-                        ),
-                      );
-                    })
+                        );
+                      }),
+                )
               ],
             ),
           ),

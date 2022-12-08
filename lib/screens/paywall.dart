@@ -1,8 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:westcoachswing/utilities/constants.dart';
 import 'package:westcoachswing/utilities/singletons_data.dart';
 import 'package:westcoachswing/utilities/size_config.dart';
+import 'package:westcoachswing/tabView.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class Paywall extends StatefulWidget {
   final Offering? offering;
@@ -16,13 +20,46 @@ class Paywall extends StatefulWidget {
 class _PaywallState extends State<Paywall> {
   @override
   Widget build(BuildContext context) {
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return PlatformAlertDialog(
+            title: const Text('Subscription problem'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text(
+                      'It looks like something went wrong with your subscription process.'),
+                  Text('Please try again.'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    String? errorMessage;
     return SingleChildScrollView(
       child: SafeArea(
         child: Container(
           alignment: Alignment.center,
           height: SizeConfig.blockSizeVertical! * 100,
           decoration: const BoxDecoration(
-            color: kColorBar,
+            image: DecorationImage(
+              image: AssetImage("assets/whiteBrick.jpg"),
+              fit: BoxFit.cover,
+            ),
           ),
           child: Wrap(
             children: <Widget>[
@@ -30,12 +67,12 @@ class _PaywallState extends State<Paywall> {
                 height: 70.0,
                 width: double.infinity,
                 decoration: const BoxDecoration(
-                    color: kColorBar,
+                    // color: kColorBar,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(25.0))),
                 child: const Center(
-                    child:
-                        Text('✨ West Coach Swing App', style: kTitleTextStyle)),
+                    child: Text('✨ UNLOCK YOUR POTENTIAL',
+                        style: kTitleTextStyle)),
               ),
               Padding(
                 padding: const EdgeInsets.only(
@@ -44,7 +81,7 @@ class _PaywallState extends State<Paywall> {
                   child: Container(
                     alignment: Alignment.center,
                     child: const Text(
-                      'Choose your offer',
+                      '7 days FREE trial',
                       style: kDescriptionTextStyle,
                     ),
                   ),
@@ -53,12 +90,12 @@ class _PaywallState extends State<Paywall> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 32, bottom: 16, left: 16.0, right: 16.0),
+                    top: 0, bottom: 16, left: 16.0, right: 16.0),
                 child: SizedBox(
                   child: Container(
                     alignment: Alignment.center,
                     child: const Text(
-                      '7 days FREE trial and then',
+                      'and then choose your subscription',
                       style: kDescriptionTextStyle,
                     ),
                   ),
@@ -75,32 +112,54 @@ class _PaywallState extends State<Paywall> {
                     ),
                     color: Colors.teal,
                     child: ListTile(
-                        onTap: () async {
-                          try {
-                            CustomerInfo customerInfo =
-                                await Purchases.purchasePackage(
-                                    myProductList[index]);
-                            appData.entitlementIsActive = customerInfo
-                                .entitlements.all[entitlementID]!.isActive;
-                          } catch (e) {
-                            print(e);
-                          }
+                      onTap: () async {
+                        try {
+                          CustomerInfo customerInfo =
+                              await Purchases.purchasePackage(
+                                  myProductList[index]);
+                          appData.entitlementIsActive = customerInfo
+                              .entitlements.all[entitlementID]!.isActive;
+                        } catch (e) {
+                          errorMessage = e.toString();
+                        }
 
-                          setState(() {});
-                          Navigator.pop(context);
-                        },
-                        title: Text(
-                          myProductList[index].storeProduct.title,
-                          style: kTitleTextStyle,
+                        setState(() {});
+                        errorMessage != null
+                            ? await _showMyDialog()
+                            : Navigator.pop(context);
+                      },
+                      title: Text(
+                        myProductList[index].storeProduct.title,
+                        style: kTitleTextStyle,
+                      ),
+                      subtitle: Text(
+                        myProductList[index].storeProduct.description,
+                        style: kDescriptionTextStyle.copyWith(
+                            fontSize: kFontSizeSuperSmall),
+                      ),
+                      trailing: RichText(
+                        text: TextSpan(
+                          text: "27,99\$",
+                          style: kBeforePriceTextStyle,
+                          children: [
+                            const WidgetSpan(
+                              style: kTitleTextStyle,
+                              child: Icon(Icons.arrow_forward, size: 22),
+                            ),
+                            TextSpan(
+                                text: myProductList[index]
+                                    .storeProduct
+                                    .priceString,
+                                style: kTitleTextStyle),
+                            TextSpan(
+                                text: '/month',
+                                style: kTitleTextStyle.copyWith(fontFeatures: [
+                                  const FontFeature.subscripts()
+                                ])),
+                          ],
                         ),
-                        subtitle: Text(
-                          myProductList[index].storeProduct.description,
-                          style: kDescriptionTextStyle.copyWith(
-                              fontSize: kFontSizeSuperSmall),
-                        ),
-                        trailing: Text(
-                            myProductList[index].storeProduct.priceString,
-                            style: kTitleTextStyle)),
+                      ),
+                    ),
                   );
                 },
                 shrinkWrap: true,

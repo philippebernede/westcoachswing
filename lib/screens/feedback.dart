@@ -3,6 +3,7 @@ import '/objects/student.dart';
 import '/objects/student_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class FeedbackScreen extends StatefulWidget {
   const FeedbackScreen({Key? key}) : super(key: key);
@@ -121,7 +122,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       _feedbackForm.currentState!.save();
       showDialog(
         context: context,
-        builder: (_) => AlertDialog(
+        builder: (_) => PlatformAlertDialog(
           content: const Text('Are you ready to send your feedback ?'),
           actions: [
             TextButton(

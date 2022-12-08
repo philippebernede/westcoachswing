@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '/objects/student_list.dart';
 import '/objects/student.dart';
@@ -13,7 +14,7 @@ class DeleteAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return PlatformAlertDialog(
       content: const Text(
           'Are you sure you want to completly delete your account? (all your informations will be lost)'),
       actions: [

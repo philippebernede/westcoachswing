@@ -2,6 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 import 'package:westcoachswing/objects/student.dart';
 import 'drill.dart';
 
@@ -38,9 +40,9 @@ class StudentList with ChangeNotifier {
                 // builder: (context) => MoreInfo(authResult.user!.uid)),
 
                 //debut test nouvelle partie à changer
-                builder: (context) => const AlertDialog(
-                      title: Text("Title"),
-                      content: Text(
+                builder: (context) => PlatformAlertDialog(
+                      title: const Text("Title"),
+                      content: const Text(
                           'I am in student_list and should have gone to More Info'),
                     )
                 //fin test nouvelle partie a changer

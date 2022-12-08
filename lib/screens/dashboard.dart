@@ -2,6 +2,7 @@ import '/components/calendar_view.dart';
 import '/objects/execution_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _DashboardState extends State<Dashboard> {
         }
       case SpanSelection.Custom:
         {
-          AlertDialog test = AlertDialog(
+          PlatformAlertDialog test = PlatformAlertDialog(
             title: const Text('Select your dates'),
             actions: <Widget>[
               Column(

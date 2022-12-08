@@ -150,21 +150,22 @@ class _VideoTimerRendererState extends State<VideoTimerRenderer>
             alignment: Alignment.center,
             children: <Widget>[
               SizedBox(
-                  height: SizeConfig.blockSizeHorizontal! * 100,
-                  width: SizeConfig.blockSizeVertical! * 100,
-                  //TODO ancienne integration de la video
-                  // child: Align(
-                  //   alignment: Alignment.center,
-                  //   heightFactor: 1,
-                  //   widthFactor: 1,
-                  //   child: AspectRatio(
-                  //     aspectRatio: _videoController!.value.aspectRatio,
-                  //     child: VideoPlayer(_videoController!),
-                  //   ),
-                  // ),
-                  //Nouvelle partie pour la video
-                  child: VimeoTest(
-                      fullscreen: false, videoID: widget.shortVideoURL!)),
+                height: SizeConfig.blockSizeHorizontal! * 100,
+                width: SizeConfig.blockSizeVertical! * 100,
+                //TODO ancienne integration de la video
+                // child: Align(
+                //   alignment: Alignment.center,
+                //   heightFactor: 1,
+                //   widthFactor: 1,
+                //   child: AspectRatio(
+                //     aspectRatio: _videoController!.value.aspectRatio,
+                //     child: VideoPlayer(_videoController!),
+                //   ),
+                // ),
+                //Nouvelle partie pour la video
+                child: VimeoTest(
+                    fullscreen: false, videoID: widget.shortVideoURL!),
+              ),
               // Positioned(bottom: 20.0, right: 20.0, child: playPauseButton()),
             ],
           ),

@@ -46,6 +46,7 @@ class DrillList with ChangeNotifier {
 
 //    Drill drill = Drill();
     if (!drillInit) {
+      drillInit = true;
       _drills =
           []; // on s'assure que la liste des drills est vide au moment de l'initialisation pour ne pas l'afficher en double. Changement fait suite à un bug
       QuerySnapshot querySnapshot =
@@ -77,7 +78,6 @@ class DrillList with ChangeNotifier {
       });
 
       _drills.sort((a, b) => a.name!.compareTo(b.name!));
-      drillInit = true;
       notifyListeners();
     }
 

@@ -31,15 +31,15 @@ class _FullScreenVideoPlayerScreenState
     // Create and store the VideoPlayerController. The VideoPlayerController
     // offers several different constructors to play videos from assets, files,
     // or the internet.
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    // SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
 //   TODO Changer pour récupérer sur network
-    _controller =
-        VideoPlayerController.asset('/assets/RPReplay_Final1605824031.MP4');
-    // _controller = VideoPlayerController.network(widget.videoURL);
+//     _controller =
+//         VideoPlayerController.asset('/assets/RPReplay_Final1605824031.MP4');
+    _controller = VideoPlayerController.network(widget.videoURL);
 
-//    _controller = VideoPlayerController.network(
-//      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-//    );
+    _controller = VideoPlayerController.network(
+      'https://www.googleapis.com/drive/v3/files/https://drive.google.com/file/d/1-_OZiw0PAV7FLC5PU9ge9oTWwEdotpXj/view?usp=share_link?alt=media&key=AIzaSyA0Tl505CBLuuK2goq6rGKCatWwkd_uSQM',
+    );
 
     // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller?.initialize();

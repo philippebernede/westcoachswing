@@ -29,10 +29,10 @@ class SettingsStaticInfo extends StatelessWidget {
           showAboutDialog(
             context: context,
             applicationIcon: kLogoNoir,
-            applicationVersion: 'Béta Version 0.1.21 October 2020',
+            applicationVersion: 'Version 1.0.0 December 2022',
             applicationName: 'West Coach Swing',
             applicationLegalese:
-                'This version is the first beta version of the WestCoachSwing app. We hope you will like it. \nFor any suggestions please contact us at westcoachswing@gmail.com',
+                'This version is the first release version of the WestCoachSwing app. We hope you will like it. \nFor any suggestions please contact us at westcoachswing@gmail.com or fillout the feedback form on our website westcoachswing.com',
           );
         }),
         SettingsButton('Contact us | Support', () {

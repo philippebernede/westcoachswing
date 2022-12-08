@@ -24,6 +24,12 @@ class VimeoPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // WebView webView = WebView();
+    // WebSettings webSettings = webView.getSettings();
+    // webSettings.setJavaScriptEnabled(true);
+    // webSettings.setAllowFileAccess(true);
+    // webSettings.setAppCacheEnabled(true);
+    // webSettings.setMediaPlaybackRequiresUserGesture(false);
     return WebView(
       initialUrl: _videoPage(videoId),
       javascriptMode: JavascriptMode.unrestricted,

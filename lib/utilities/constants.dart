@@ -205,13 +205,20 @@ const kDescriptionTextStyle = TextStyle(
   color: kColorText,
   fontWeight: FontWeight.normal,
   fontSize: kFontSizeNormal,
-  backgroundColor: kColorBar,
+  // backgroundColor: kColorBar,
 );
 
 const kTitleTextStyle = TextStyle(
   color: kColorText,
   fontWeight: FontWeight.bold,
   fontSize: kFontSizeMedium,
+  decoration: TextDecoration.none,
+);
+const kBeforePriceTextStyle = TextStyle(
+  color: kColorText,
+  fontWeight: FontWeight.bold,
+  fontSize: kFontSizeNormal,
+  decoration: TextDecoration.lineThrough,
 );
 
 // Inputs

@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import '/components/collection_renderer.dart';
 import '/components/exo_list_video_view.dart';
@@ -47,7 +48,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final student = Provider.of<StudentList>(context);
 
-    SizeConfig().init(context);
     return Container(
 //      decoration: kBackgroundContainer,
       child: ListView(
@@ -187,7 +187,7 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 10.0,
           ),
-          CollectionRenderer(
+          const CollectionRenderer(
             isScrollable: false,
           ),
         ],
@@ -195,8 +195,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AlertDialog errorDialog(BuildContext context) {
-    return AlertDialog(
+  PlatformAlertDialog errorDialog(BuildContext context) {
+    return PlatformAlertDialog(
       title: kLogoNoir,
       content: const Text(
           'Sadly we have no drill corresponding to your selection right now'),
@@ -233,6 +233,7 @@ class _HomePageState extends State<HomePage> {
                 soloWorkout
                     ? workout.workoutList = workout.soloWorkouts
                     : showDialog(
+                        barrierDismissible: false,
                         context: context,
                         builder: (_) => coupleDialog(context));
               },

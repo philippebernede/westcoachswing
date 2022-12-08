@@ -26,6 +26,7 @@ class Workouts with ChangeNotifier {
     workouts[0] = workoutList[0]!;
     workouts[1] = workoutList[1]!;
     workouts[2] = workoutList[2]!;
+    notifyListeners();
   }
 
   void selectedWorkout(int index, BuildContext context, [int? drillId]) {
@@ -209,9 +210,9 @@ class Workouts with ChangeNotifier {
         _drills,
         'couple',
       );
-      _filteredDrills1 = _drills
-          .where((element) => element.partner == Partner.Couple)
-          .toList();
+      // _filteredDrills1 = _drills
+      //     .where((element) => element.partner == Partner.Couple)
+      //     .toList();
     } else {
       _filteredDrills1 = _drills
           .where((element) =>
@@ -318,6 +319,7 @@ class Workouts with ChangeNotifier {
       workouts[0] = coupleWorkouts[0]!;
       workouts[1] = coupleWorkouts[1]!;
       workouts[2] = coupleWorkouts[2]!;
+      notifyListeners();
     }
     return coupleWorkouts;
   }

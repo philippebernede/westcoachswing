@@ -12,8 +12,8 @@ import 'package:westcoachswing/objects/execution_list.dart';
 import 'package:westcoachswing/objects/student_list.dart';
 import 'package:westcoachswing/screens/authentication_screen.dart';
 import 'package:westcoachswing/screens/paywall.dart';
-import 'package:westcoachswing/utilities/store_config.dart';
 import 'package:westcoachswing/utilities/constants.dart';
+import 'package:westcoachswing/utilities/size_config.dart';
 import 'package:westcoachswing/utilities/singletons_data.dart';
 import '/tabView.dart';
 
@@ -64,27 +64,28 @@ class _RootPageState extends State<RootPage> {
 
     if (offerings == null || offerings.current == null) {
       // offerings are empty, show a message to your user
-    } else {
-      // current offering is available, show paywall
-      await showModalBottomSheet(
-        useRootNavigator: true,
-        isDismissible: false, //todo: change to false once testing is done
-        isScrollControlled: true,
-        backgroundColor: kColorBackground,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-        ),
-        context: context,
-        builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setModalState) {
-            return Paywall(
-              offering: offerings!.current,
-            );
-          });
-        },
-      );
     }
+    // else {
+    //   // current offering is available, show paywall
+    //   await showModalBottomSheet(
+    //     useRootNavigator: true,
+    //     isDismissible: false, //todo: change to false once testing is done
+    //     isScrollControlled: true,
+    //     backgroundColor: kColorBackground,
+    //     shape: const RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+    //     ),
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return StatefulBuilder(
+    //           builder: (BuildContext context, StateSetter setModalState) {
+    //         return Paywall(
+    //           offering: offerings!.current,
+    //         );
+    //       });
+    //     },
+    //   );
+    // }
   }
 
   Future<void> initPlatformState() async {
@@ -126,7 +127,7 @@ class _RootPageState extends State<RootPage> {
               ? appData.entitlementIsActive = true
               : appData.entitlementIsActive = false;
 
-          setState(() {});
+          //setState(() {});
         },
       );
     }
@@ -135,6 +136,7 @@ class _RootPageState extends State<RootPage> {
 //  renvoi sur le bon écran selon si on est déjà connecté ou pas
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     switch (_authStatus) {
       case AuthStatus.notSignedIn:
         return const AuthenticationScreen();
@@ -157,7 +159,7 @@ class _RootPageState extends State<RootPage> {
               studentList,
               executionList,
               drillList,
-              Future.delayed(const Duration(seconds: 3))
+              // Future.delayed(const Duration(seconds: 3))
             ]),
             builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {

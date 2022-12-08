@@ -52,7 +52,7 @@ class _SearchFilterState extends State<SearchFilter> {
         ],
 //        backgroundColor: Colors.transparent,
       ),
-      body: Container(
+      body: SingleChildScrollView(
         // decoration: const BoxDecoration(
         //   image: DecorationImage(
         //     image: AssetImage("assets/whiteBrick.jpg"),

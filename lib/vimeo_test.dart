@@ -6,8 +6,8 @@ import 'package:westcoachswing/VimeoPlayer/vimeo_player.dart';
 class VimeoTest extends StatefulWidget {
   VimeoTest({Key? key, required this.fullscreen, required this.videoID})
       : super(key: key);
-  bool? fullscreen;
-  String videoID;
+  final bool? fullscreen;
+  final String videoID;
   @override
   _VimeoTestState createState() => _VimeoTestState();
 }
@@ -15,8 +15,14 @@ class VimeoTest extends StatefulWidget {
 class _VimeoTestState extends State<VimeoTest> {
   @override
   void initState() {
+    super.initState();
     if (widget.fullscreen == true) {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft
+      ]);
     }
   }
 
