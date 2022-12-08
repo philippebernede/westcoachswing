@@ -198,13 +198,14 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                 }
                 if (value!.isEmpty ||
                     !validatePassword(value.toString().trim())) {
-                  return 'Your Password is too weak.';
+                  return 'Your Password is too weak. 8+ char,one upper- and one lowercase,1 special char';
                 }
                 return null;
               },
               obscureText: _obscuredPwd,
               style: inputTextStyle,
               decoration: InputDecoration(
+                  errorMaxLines: 2,
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.remove_red_eye),
