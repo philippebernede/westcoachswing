@@ -14,6 +14,7 @@ class VimeoTest extends StatefulWidget {
 
 class _VimeoTestState extends State<VimeoTest> {
   @override
+
   void initState() {
     super.initState();
     if (widget.fullscreen == true) {
@@ -40,6 +41,7 @@ class _VimeoTestState extends State<VimeoTest> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Container(
         child: Stack(
@@ -47,7 +49,7 @@ class _VimeoTestState extends State<VimeoTest> {
           alignment: Alignment.center,
           children: <Widget>[
             VimeoPlayer(
-              videoId: widget.videoID,
+              videoId: widget.videoID,loop: "1",
             ),
             if (widget.fullscreen == true)
               Positioned(

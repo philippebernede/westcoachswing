@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:westcoachswing/screens/full_screen_video_player.dart';
 import 'package:westcoachswing/utilities/constants.dart';
+import 'package:westcoachswing/vimeo_intro.dart';
 import '/components/received_notification.dart';
 import '/objects/drill.dart';
 import '/objects/execution_list.dart';
 import '/objects/student_list.dart';
-import 'package:westcoachswing/vimeo_test.dart';
 import '/tabView.dart';
 import '/components/workouts.dart';
 import 'package:flutter/cupertino.dart';
@@ -408,7 +408,7 @@ class _MoreInfoState extends State<MoreInfo> {
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
 //                            CountDownTransitionScreen(drill),779127082?a4d7293d5d
-                                  VimeoTest(
+                                  VimeoIntro(
                                       fullscreen: false, videoID: '779127082'),
                               // const FullScreenVideoPlayerScreen(
                               //   autoPlay: true,

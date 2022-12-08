@@ -12,6 +12,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 ///
 class VimeoPlayer extends StatelessWidget {
   final String videoId;
+  final String loop;
 
   ///constructor
   ///
@@ -20,6 +21,7 @@ class VimeoPlayer extends StatelessWidget {
   const VimeoPlayer({
     Key? key,
     required this.videoId,
+    required this.loop,
   }) : super(key: key);
 
   @override
@@ -31,8 +33,8 @@ class VimeoPlayer extends StatelessWidget {
     // webSettings.setAppCacheEnabled(true);
     // webSettings.setMediaPlaybackRequiresUserGesture(false);
     return WebView(
-      initialUrl: _videoPage(videoId),
-      javascriptMode: JavascriptMode.unrestricted,
+      initialUrl: _videoPage(videoId,loop),
+      javascriptMode: JavascriptMode.unrestricted,gestureNavigationEnabled: false,initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,allowsInlineMediaPlayback: true,
     );
   }
 
@@ -41,7 +43,7 @@ class VimeoPlayer extends StatelessWidget {
   ///
   ///
   ///
-  String _videoPage(String videoId) {
+  String _videoPage(String videoId,String loop) {
     final html = '''
             <html>
               <head>
@@ -58,7 +60,7 @@ class VimeoPlayer extends StatelessWidget {
              </head>
              <body>
      
-                <iframe src="https://player.vimeo.com/video/$videoId?autoplay=1&loop=1&autopause=1&autopause=0&muted=0"; allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                <iframe src="https://player.vimeo.com/video/$videoId?autoplay=1&loop=$loop&autopause=1&autopause=0&muted=0"; allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
              </body>
             </html>
             ''';

@@ -5,6 +5,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:wakelock/wakelock.dart';
 
 import '/vimeo_test.dart';
+import 'package:westcoachswing/vimeo_intro.dart';
 import '/components/finished_drill_popup.dart';
 import '/utilities/constants.dart';
 import '/utilities/size_config.dart';

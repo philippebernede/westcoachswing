@@ -64,28 +64,27 @@ class _RootPageState extends State<RootPage> {
 
     if (offerings == null || offerings.current == null) {
       // offerings are empty, show a message to your user
+    } else {
+      // current offering is available, show paywall
+      await showModalBottomSheet(
+        useRootNavigator: true,
+        isDismissible: false, //todo: change to false once testing is done
+        isScrollControlled: true,
+        backgroundColor: kColorBackground,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+        ),
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setModalState) {
+            return Paywall(
+              offering: offerings!.current,
+            );
+          });
+        },
+      );
     }
-    // else {
-    //   // current offering is available, show paywall
-    //   await showModalBottomSheet(
-    //     useRootNavigator: true,
-    //     isDismissible: false, //todo: change to false once testing is done
-    //     isScrollControlled: true,
-    //     backgroundColor: kColorBackground,
-    //     shape: const RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-    //     ),
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return StatefulBuilder(
-    //           builder: (BuildContext context, StateSetter setModalState) {
-    //         return Paywall(
-    //           offering: offerings!.current,
-    //         );
-    //       });
-    //     },
-    //   );
-    // }
   }
 
   Future<void> initPlatformState() async {
