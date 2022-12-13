@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:westcoachswing/utilities/constants.dart';
 
 class AuthenticationForm extends StatefulWidget {
   const AuthenticationForm(this.submitFn, this.isLoading, {Key? key})
@@ -89,8 +90,8 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
           borderSide: const BorderSide(color: Colors.white, width: 3)),
       hintText: hintText,
       hintStyle: inputTextStyle,
-      errorStyle:
-          const TextStyle(color: Colors.white, backgroundColor: Colors.teal),
+      errorStyle: const TextStyle(
+          fontSize: 16.0, color: Colors.white, backgroundColor: Colors.teal),
     );
   }
 
@@ -217,7 +218,9 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   filled: true,
                   fillColor: Colors.white,
                   errorStyle: const TextStyle(
-                      color: Colors.white, backgroundColor: Colors.teal),
+                      fontSize: 16.0,
+                      color: Colors.white,
+                      backgroundColor: Colors.teal),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide:
@@ -276,9 +279,14 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
                   borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
-              child: Text(_isLogin
-                  ? (_resetPassword ? 'Reset Password' : 'Login')
-                  : 'Sign up'),
+              child: Text(
+                _isLogin
+                    ? (_resetPassword ? 'Reset Password' : 'Login')
+                    : 'Sign up',
+                style: const TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
               onPressed: _trySubmit,
             ),
 
@@ -287,19 +295,26 @@ class _AuthenticationFormState extends State<AuthenticationForm> {
               // textColor: Theme.of(context).primaryColor,
               child: Text(
                 _isLogin ? 'Create new account' : 'I already have an account',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    fontSize: 16.0, color: Theme.of(context).primaryColor),
               ),
               onPressed: () {
                 setState(() {
                   _isLogin = !_isLogin;
                   _resetPassword = false;
                   _obscuredPwd = true;
+                  _formKey.currentState!.reset();
                 });
               },
             ),
           const SizedBox(
             height: 20,
           ),
+          if (!_isLogin)
+            Container(
+              child: termsTextTeal,
+              alignment: Alignment.center,
+            ),
 
 // TODO peut être ajouter ces elements plus tard, mais pas pour l'instant
 //          SizedBox(

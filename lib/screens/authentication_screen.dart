@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:westcoachswing/screens/root_page.dart';
 
 import '/components/authentication_form.dart';
 import '/objects/execution_list.dart';
@@ -96,7 +97,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   builder:
                       (BuildContext context, AsyncSnapshot<void> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
-                      return const TabView();
+                      return RootPage();
                     } else {
                       return Container(
                         color: Colors.white,

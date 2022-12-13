@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 //COULEURS :
 const Color kActionButtonColor = Colors.pink;
@@ -178,7 +180,77 @@ final DateTime kLastDay = DateTime(kToday.year, kToday.month + 1, 1);
 const entitlementID = 'Regular';
 
 //TO DO: add your subscription terms and conditions
-const footerText = """Auto-renewable. Cancel anytime.""";
+const footerText =
+    """This offer is valid for the first 12 month.\nAuto-renewable. Cancel anytime.""";
+
+RichText termsTextBlack = RichText(
+  text: TextSpan(
+    style: const TextStyle(color: Colors.black),
+    children: [
+      TextSpan(
+        text: "Terms and Conditions",
+        style: const TextStyle(decoration: TextDecoration.underline),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () async {
+            var url = "https://westcoachswing.com/terms-and-conditions-app/";
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw "Could not launch $url";
+            }
+          },
+      ),
+      const TextSpan(text: " and "),
+      TextSpan(
+          text: "Privacy Policy",
+          style: const TextStyle(decoration: TextDecoration.underline),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () async {
+              var url = "https://westcoachswing.com/privacy-policies-app";
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                throw "Could not launch $url";
+              }
+            }),
+    ],
+  ),
+);
+
+RichText termsTextTeal = RichText(
+  text: TextSpan(
+    style: const TextStyle(color: Colors.teal),
+    children: [
+      const TextSpan(text: "By signing up you agree to the following\n"),
+      TextSpan(
+        text: "Terms and Conditions",
+        style: const TextStyle(decoration: TextDecoration.underline),
+        recognizer: TapGestureRecognizer()
+          ..onTap = () async {
+            var url = "https://westcoachswing.com/terms-and-conditions-app/";
+            if (await canLaunch(url)) {
+              await launch(url);
+            } else {
+              throw "Could not launch $url";
+            }
+          },
+      ),
+      const TextSpan(text: " and "),
+      TextSpan(
+          text: "Privacy Policy",
+          style: const TextStyle(decoration: TextDecoration.underline),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () async {
+              var url = "https://westcoachswing.com/privacy-policies-app";
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else {
+                throw "Could not launch $url";
+              }
+            }),
+    ],
+  ),
+);
 
 //TO DO: add the Apple API key for your app from the RevenueCat dashboard: https://app.revenuecat.com
 const appleApiKey = 'appl_jqkcQKikPEuNTlZrERvSWMZOWHr';

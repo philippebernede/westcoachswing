@@ -81,7 +81,7 @@ class _PaywallState extends State<Paywall> {
                   child: Container(
                     alignment: Alignment.center,
                     child: const Text(
-                      '7 days FREE trial',
+                      'Start with 7 days FREE trial',
                       style: kDescriptionTextStyle,
                     ),
                   ),
@@ -95,7 +95,7 @@ class _PaywallState extends State<Paywall> {
                   child: Container(
                     alignment: Alignment.center,
                     child: const Text(
-                      'and then choose your subscription',
+                      'and then only pay',
                       style: kDescriptionTextStyle,
                     ),
                   ),
@@ -176,6 +176,10 @@ class _PaywallState extends State<Paywall> {
                   ),
                   width: double.infinity,
                 ),
+              ),
+              Container(
+                child: termsTextBlack,
+                alignment: Alignment.center,
               ),
             ],
           ),
